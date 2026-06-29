@@ -64,7 +64,7 @@ function HeroCard({
       {day.challenge && (
         <div className="mt-4 flex flex-wrap items-center gap-2">
           <span className="rounded-pill bg-wildcard/15 px-3 py-1 font-body text-[0.65rem] font-bold uppercase tracking-wide text-wildcard">
-            {day.challenge.finale ? '560 · Final Day 🎉' : `560 Challenge · Day ${day.challenge.day} of 60`}
+            {day.challenge.finale ? '560 · Final Day' : `560 Challenge · Day ${day.challenge.day} of 60`}
           </span>
           {day.challenge.levelUp && (
             <span className="rounded-pill bg-levelup/15 px-3 py-1 font-body text-[0.65rem] font-bold uppercase tracking-wide text-levelup">

@@ -46,6 +46,9 @@ function MonthCell({
   const meta = METHODS[day.method]
   const dateNum = parseISO(day.date).getDate()
   const ch = day.challenge
+  const isStart = ch?.day === 1
+  const isEnd = Boolean(ch?.finale)
+  const milestone = isStart || isEnd
 
   return (
     <button
@@ -63,7 +66,13 @@ function MonthCell({
       }`}
     >
       <div className="flex items-start justify-between gap-1">
-        <span className="font-display text-[0.72rem] font-bold leading-none text-mocha sm:text-sm">
+        <span
+          className={
+            milestone
+              ? 'inline-grid h-5 w-5 place-items-center rounded-full font-display text-[0.7rem] font-bold leading-none text-rose-deep ring-2 ring-rose-deep sm:h-6 sm:w-6 sm:text-sm'
+              : 'font-display text-[0.72rem] font-bold leading-none text-mocha sm:text-sm'
+          }
+        >
           {dateNum}
         </span>
         {ch?.levelUp && <span className="text-[0.6rem] leading-none text-levelup">★</span>}
@@ -71,6 +80,11 @@ function MonthCell({
 
       {/* rich content only where there's room */}
       <div className="mt-1 hidden min-w-0 flex-col gap-0.5 sm:flex">
+        {milestone && (
+          <span className="truncate font-display text-[0.62rem] font-semibold italic leading-tight text-rose-deep">
+            {isStart ? 'we start!' : 'we finished!'}
+          </span>
+        )}
         <span className="truncate text-[0.5rem] font-bold uppercase tracking-wide text-mocha-soft">
           {meta.label}
         </span>
@@ -87,7 +101,7 @@ function MonthCell({
       <div className="mt-auto flex items-center justify-between pt-1">
         {ch ? (
           <span className="text-[0.5rem] font-bold text-mocha-muted sm:text-[0.55rem]">
-            {ch.finale ? '🎉' : `d${ch.day}`}
+            d{ch.day}
           </span>
         ) : (
           <span />
@@ -256,8 +270,18 @@ export default function MonthlyView({ tracker }: { tracker: Tracker }) {
             {selCh && (
               <div className="mt-2.5 flex flex-wrap items-center gap-2">
                 <span className="rounded-pill bg-wildcard/15 px-2.5 py-1 font-body text-[0.62rem] font-bold uppercase tracking-wide text-wildcard">
-                  {selCh.finale ? '560 · Final Day 🎉' : `560 · Day ${selCh.day}`}
+                  {selCh.finale ? '560 · Final Day' : `560 · Day ${selCh.day}`}
                 </span>
+                {selCh.day === 1 && (
+                  <span className="rounded-pill bg-rose-deep/15 px-2.5 py-1 font-body text-[0.62rem] font-bold uppercase tracking-wide text-rose-deep">
+                    Challenge begins
+                  </span>
+                )}
+                {selCh.finale && (
+                  <span className="rounded-pill bg-rose-deep/15 px-2.5 py-1 font-body text-[0.62rem] font-bold uppercase tracking-wide text-rose-deep">
+                    Challenge complete
+                  </span>
+                )}
                 {selCh.levelUp && (
                   <span className="rounded-pill bg-levelup/15 px-2.5 py-1 font-body text-[0.62rem] font-bold uppercase tracking-wide text-levelup">
                     ★ Level-Up
