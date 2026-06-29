@@ -6,6 +6,8 @@ import DayBadge from './DayBadge'
 import MethodTag from './MethodTag'
 import CheckCircle from './CheckCircle'
 import Header from './Header'
+import QuoteCard from './QuoteCard'
+import { DONE_CHEERS, pickByDate } from '../data/quotes'
 import type { ScheduledDay } from '../data/types'
 
 function greeting(): string {
@@ -79,7 +81,7 @@ function HeroCard({
       {!rest && (
         <div className="mt-6 flex items-center justify-between gap-4 rounded-2xl bg-cream/70 px-4 py-3">
           <span className="font-body text-sm font-semibold text-mocha-soft">
-            {done ? 'Done — amazing work! ♡' : 'Tap when you finish'}
+            {done ? pickByDate(DONE_CHEERS, day.date) : 'Tap when you finish'}
           </span>
           <CheckCircle
             done={done}
@@ -149,6 +151,7 @@ export default function TodayView({ tracker }: { tracker: Tracker }) {
         tagline={`${greeting()}, busy girl`}
         subtitle="here's your day — move, sweat, repeat"
       />
+      <QuoteCard isoDate={todayDay.date} />
       {/* Chronological: yesterday → today → tomorrow */}
       <div className="space-y-3">
         <MiniCard day={yesterdayDay} label="Yesterday" tracker={tracker} />
