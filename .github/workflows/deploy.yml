@@ -2,7 +2,10 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [main]
+    # `main` is the intended branch; the feature branch is also listed because
+    # the github-pages environment currently only permits deploys from the
+    # repo's default branch. Remove it once `main` is set as the default.
+    branches: [main, claude/workout-tracker-app-8b5f9d]
   workflow_dispatch:
 
 # Allow GITHUB_TOKEN to deploy to Pages
