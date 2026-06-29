@@ -9,6 +9,7 @@ import Header from './Header'
 import QuoteCard from './QuoteCard'
 import StatsCard from './StatsCard'
 import ChallengeBanner from './ChallengeBanner'
+import WatchLink from './WatchLink'
 import { DONE_CHEERS, pickByDate } from '../data/quotes'
 import type { ScheduledDay } from '../data/types'
 
@@ -80,6 +81,12 @@ function HeroCard({
         <p className="mt-4 font-body text-sm text-mocha-soft">{day.note}</p>
       )}
 
+      {day.link && (
+        <div className="mt-4">
+          <WatchLink href={day.link} size="md" />
+        </div>
+      )}
+
       {!rest && (
         <div className="mt-6 flex items-center justify-between gap-4 rounded-2xl bg-cream/70 px-4 py-3">
           <span className="font-body text-sm font-semibold text-mocha-soft">
@@ -121,6 +128,7 @@ function MiniCard({
           <div className="mt-0.5 flex flex-wrap items-center gap-1.5">
             <MethodTag method={day.method} />
             <span className="font-display text-sm font-semibold text-mocha">{day.title}</span>
+            {day.link && <WatchLink href={day.link} />}
           </div>
         )}
       </div>

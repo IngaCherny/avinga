@@ -76,8 +76,18 @@ export const REST: Workout = { method: 'rest', title: 'rest & restore' }
 export const WEEKLY_TEMPLATE: Record<number, Workout> = {
   0: { method: 'belle', title: 'Lower Body', note: 'Belle Method · glutes & legs' },
   1: { method: 'burn', title: 'Upper Body', note: 'Build&Burn · push + pull' },
-  2: { method: 'burn', title: 'Pilates', note: 'Build&Burn · core & control' },
-  3: { method: 'burn', title: 'Lower Body', note: 'Build&Burn · strength' },
+  2: {
+    method: 'burn',
+    title: 'Pilates',
+    note: 'Build&Burn · Pilates Full Body & Abs',
+    link: 'http://watch.buildandburn.co/videos/c1515',
+  },
+  3: {
+    method: 'burn',
+    title: 'Lower Body',
+    note: 'Build&Burn · Lower Body for Reps',
+    link: 'http://watch.buildandburn.co/videos/c1519',
+  },
   4: { method: 'belle', title: 'Upper Body', note: 'Belle Method · sculpt' },
   5: { method: 'run', title: '20 min + Core', note: 'Easy run + core finisher' },
   6: REST, // Saturday, rest & restore

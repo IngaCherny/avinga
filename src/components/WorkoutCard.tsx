@@ -3,6 +3,7 @@ import type { ScheduledDay } from '../data/types'
 import DayBadge from './DayBadge'
 import MethodTag from './MethodTag'
 import CheckCircle from './CheckCircle'
+import WatchLink from './WatchLink'
 
 interface Props {
   day: ScheduledDay
@@ -72,6 +73,7 @@ export default function WorkoutCard({ day, done, onToggle, isToday }: Props) {
             {day.challenge.levelUp ? ' · ★' : ''}
           </span>
         )}
+        {day.link && <WatchLink href={day.link} />}
       </div>
 
       <CheckCircle done={done} onToggle={onToggle} rest={rest} label={day.dayName} />

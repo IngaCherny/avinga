@@ -34,6 +34,8 @@ export interface Workout {
   title: string
   /** Optional extra note (sets/reps/focus) shown in detail views. */
   note?: string
+  /** Optional link to the workout video. */
+  link?: string
   /** Present when this day is part of the 560 Challenge. */
   challenge?: ChallengeInfo
 }

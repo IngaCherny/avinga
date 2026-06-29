@@ -15,6 +15,7 @@ import Header from './Header'
 import DayBadge from './DayBadge'
 import MethodTag from './MethodTag'
 import CheckCircle from './CheckCircle'
+import WatchLink from './WatchLink'
 
 const WEEK_LABELS = ['S', 'M', 'T', 'W', 'T', 'F', 'S']
 
@@ -292,6 +293,12 @@ export default function MonthlyView({ tracker }: { tracker: Tracker }) {
                     Travelling? swap in <strong className="not-italic font-semibold">560: {selCh.swap}</strong>
                   </span>
                 )}
+              </div>
+            )}
+
+            {selectedDay.link && (
+              <div className="mt-3">
+                <WatchLink href={selectedDay.link} />
               </div>
             )}
           </div>
