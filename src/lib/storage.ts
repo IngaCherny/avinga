@@ -51,7 +51,7 @@ function persist(state: TrackerState) {
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state))
   } catch {
-    /* storage may be unavailable (private mode) — fail quietly */
+    /* storage may be unavailable (private mode), fail quietly */
   }
 }
 

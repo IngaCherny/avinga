@@ -6,9 +6,9 @@ export interface Quote {
   by?: string
 }
 
-/** A generous pool — one is featured each day on the Today dashboard. */
+/** A generous pool, one is featured each day on the Today dashboard. */
 export const QUOTES: Quote[] = [
-  { text: 'Consistency over perfection — you’ve got this.' },
+  { text: 'Consistency over perfection, you’ve got this.' },
   { text: 'You don’t have to be extreme, just consistent.' },
   { text: 'Discipline is choosing between what you want now and what you want most.' },
   { text: 'The only bad workout is the one that didn’t happen.' },
@@ -53,14 +53,14 @@ export const QUOTES: Quote[] = [
   { text: 'A goal without a plan is just a wish.', by: 'Antoine de Saint-Exupéry' },
   { text: 'Strive for progress, not perfection.' },
   { text: 'Your only limit is you.' },
-  { text: 'Some days you won’t feel like it — do it anyway, gently.' },
+  { text: 'Some days you won’t feel like it, do it anyway, gently.' },
   { text: 'Be proud of every step you take toward reaching your goal.' },
   { text: 'The secret of getting ahead is getting started.', by: 'Mark Twain' },
   { text: 'You’re allowed to be both a masterpiece and a work in progress.' },
   { text: 'Small steps every day.' },
   { text: 'Doing your best is more important than being the best.' },
   { text: 'Falling down is how we grow. Staying down is how we die.' },
-  { text: 'Strong women lift each other up — and a few dumbbells too.' },
+  { text: 'Strong women lift each other up, and a few dumbbells too.' },
   { text: 'Your future is created by what you do today, not tomorrow.' },
   { text: 'One day or day one. You decide.' },
   { text: 'Be the energy you want to attract.' },
@@ -69,28 +69,28 @@ export const QUOTES: Quote[] = [
   { text: 'You’ve survived 100% of your hardest days. Keep going.' },
 ]
 
-/** Many ways to celebrate a finished workout — one is chosen per day. */
+/** Many ways to celebrate a finished workout, one is chosen per day. */
 export const DONE_CHEERS: string[] = [
-  'Done — amazing work! ♡',
-  'Crushed it. So proud of you! ✨',
-  'Yes! Another one in the books. 💪',
-  'Look at you go — incredible! ♡',
+  'Done, amazing work!',
+  'Crushed it. So proud of you!',
+  'Yes! Another one in the books.',
+  'Look at you go, incredible!',
   'Workout complete. You’re unstoppable!',
-  'That’s how it’s done. Bravo! 🌟',
-  'Sweaty and strong — love to see it!',
-  'Boom. Future you says thank you. ♡',
-  'Nailed it. Consistency queen! 👑',
+  'That’s how it’s done. Bravo!',
+  'Sweaty and strong, love to see it!',
+  'Boom. Future you says thank you.',
+  'Nailed it. Consistency queen!',
   'One step stronger today. Beautiful work!',
-  'You showed up and showed off. ✨',
-  'Done & dusted — go you!',
-  'Strong body, happy mind. Great job! ♡',
-  'Checked off and glowing. 🔥',
-  'Proud of you — that took grit!',
-  'Another win for the streak! ⚡',
-  'You did the thing! Celebrate it. 🎉',
-  'Effort = everything. Well done!',
-  'That’s a yes from your future self. ♡',
-  'Sweat earned, smile deserved. 😊',
+  'You showed up and showed off.',
+  'Done and dusted, go you!',
+  'Strong body, happy mind. Great job!',
+  'Checked off and glowing.',
+  'Proud of you, that took grit!',
+  'Another win for the streak!',
+  'You did the thing! Celebrate it.',
+  'Effort is everything. Well done!',
+  'That’s a yes from your future self.',
+  'Sweat earned, smile deserved.',
 ]
 
 /** Stable hash of a YYYY-MM-DD string. */
@@ -103,7 +103,7 @@ function hashDate(iso: string): number {
 }
 
 /**
- * Deterministically pick an item for a given date — same all day, rotates
+ * Deterministically pick an item for a given date, same all day, rotates
  * daily. `salt` lets different lists pick independently for the same date.
  */
 export function pickByDate<T>(list: T[], iso: string, salt = 0): T {

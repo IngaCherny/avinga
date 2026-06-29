@@ -1,7 +1,7 @@
 import type { MethodKey, MethodMeta, Workout } from './types'
 
 /**
- * Method metadata — colors are tuned to match the cozy training PDF.
+ * Method metadata, colors are tuned to match the cozy training PDF.
  * BELLE = dusty rose · BUILD&BURN = mocha · RUN = terracotta · rest = muted.
  */
 export const METHODS: Record<MethodKey, MethodMeta> = {
@@ -68,7 +68,7 @@ export const REST: Workout = { method: 'rest', title: 'rest & restore' }
 
 /**
  * The recurring weekly training template, keyed by weekday (0 = Sun … 6 = Sat).
- * This is the single source of truth — edit here to update the whole app, and
+ * This is the single source of truth, edit here to update the whole app, and
  * it repeats automatically for every week and month.
  *
  * Taken from the "JUN 28 · JUL 4" plan: Belle Method & Build&Burn.
@@ -80,13 +80,13 @@ export const WEEKLY_TEMPLATE: Record<number, Workout> = {
   3: { method: 'burn', title: 'Lower Body', note: 'Build&Burn · strength' },
   4: { method: 'belle', title: 'Upper Body', note: 'Belle Method · sculpt' },
   5: { method: 'run', title: '20 min + Core', note: 'Easy run + core finisher' },
-  6: REST, // Saturday — rest & restore
+  6: REST, // Saturday, rest & restore
 }
 
 /** The meta line shown under the title. */
 export const PLAN_SUBTITLE = 'Belle Method & Build&Burn · move, sweat, repeat'
 export const PLAN_TAGLINE = 'your sweaty week, busy girl'
-export const FOOTER_NOTE = "consistency over perfection — you've got this!"
+export const FOOTER_NOTE = "consistency over perfection, you've got this!"
 
 /** Look up the planned workout for any weekday. */
 export function workoutForWeekday(weekday: number): Workout {

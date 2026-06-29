@@ -1,5 +1,5 @@
 /**
- * Soft blush "blob" circles that drift behind the content — the cozy backdrop
+ * Soft blush "blob" circles that drift behind the content, the cozy backdrop
  * from the PDF. Purely decorative, hidden from assistive tech.
  */
 export default function Background() {

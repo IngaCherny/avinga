@@ -8,7 +8,7 @@ interface Props {
   label: string
 }
 
-/** The right-hand completion toggle — empty ring → filled check. */
+/** The right-hand completion toggle, empty ring → filled check. */
 export default function CheckCircle({ done, onToggle, rest, label }: Props) {
   if (rest) {
     return (

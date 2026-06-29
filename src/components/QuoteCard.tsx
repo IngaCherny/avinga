@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion'
 import { QUOTES, pickByDate } from '../data/quotes'
 
-/** The "quote of the day" — a new motivational line each day. */
+/** The "quote of the day", a new motivational line each day. */
 export default function QuoteCard({ isoDate }: { isoDate: string }) {
   const quote = pickByDate(QUOTES, isoDate)
   return (
@@ -23,7 +23,7 @@ export default function QuoteCard({ isoDate }: { isoDate: string }) {
         {quote.text}
       </p>
       {quote.by && (
-        <p className="mt-1 text-right font-body text-xs italic text-mocha-muted">— {quote.by}</p>
+        <p className="mt-1 text-right font-body text-xs italic text-mocha-muted">{quote.by}</p>
       )}
     </motion.div>
   )

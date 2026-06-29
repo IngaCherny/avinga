@@ -149,7 +149,7 @@ export default function TodayView({ tracker }: { tracker: Tracker }) {
         titleLead="Hey"
         titleAccent={person.name}
         tagline={`${greeting()}, busy girl`}
-        subtitle="here's your day — move, sweat, repeat"
+        subtitle="here's your day, move, sweat, repeat"
       />
       <QuoteCard isoDate={todayDay.date} />
       {/* Chronological: yesterday → today → tomorrow */}

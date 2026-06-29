@@ -1,7 +1,7 @@
 import type { Workout } from './types'
 
 /**
- * The 560 Challenge — a 60-day block that overlays the normal lift-first plan,
+ * The 560 Challenge, a 60-day block that overlays the normal lift-first plan,
  * transcribed from the July / August / September 2026 calendars.
  *
  * Day 1 = 2026-07-20, Day 60 = 2026-09-17. Outside this window the regular

@@ -6,7 +6,7 @@ interface Props {
   onChange: (id: string) => void
 }
 
-/** Pick whose progress you're viewing — Inga or Aviv. */
+/** Pick whose progress you're viewing, Inga or Aviv. */
 export default function ProfileSwitcher({ active, onChange }: Props) {
   return (
     <div className="flex items-center gap-2">

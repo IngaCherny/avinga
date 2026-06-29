@@ -21,7 +21,7 @@ const WEEK_LABELS = ['S', 'M', 'T', 'W', 'T', 'F', 'S']
 /** Per-month subtitle, calling out the 560 Challenge where relevant. */
 function monthSubtitle(year: number, month: number): string {
   if (year === 2026 && month === 6) return 'Lift-first · 560 Challenge starts 20 July'
-  if (year === 2026 && month === 7) return 'Lift-first · 560 Challenge — keep building'
+  if (year === 2026 && month === 7) return 'Lift-first · 560 Challenge, keep building'
   if (year === 2026 && month === 8) return '560 finishes 17 Sept · then back to your plan'
   return PLAN_SUBTITLE
 }
@@ -143,7 +143,7 @@ export default function MonthlyView({ tracker }: { tracker: Tracker }) {
     const month = ((m % 12) + 12) % 12
     setCursor({ year, month })
     // Keep the detail card in sync: select today if it's in the new month,
-    // otherwise the 1st — so we never show a day from a different month.
+    // otherwise the 1st, so we never show a day from a different month.
     const target =
       year === now.getFullYear() && month === now.getMonth() ? now : new Date(year, month, 1)
     setSelected(buildDay(target).date)
@@ -154,7 +154,7 @@ export default function MonthlyView({ tracker }: { tracker: Tracker }) {
       <Header
         titleLead={monthName(cursor.month)}
         titleAccent={String(cursor.year)}
-        tagline={`${monthName(cursor.month).toLowerCase()} — lift first, busy girl`}
+        tagline={`${monthName(cursor.month).toLowerCase()}, lift first, busy girl`}
         subtitle={monthSubtitle(cursor.year, cursor.month)}
       />
 
