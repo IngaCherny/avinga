@@ -29,9 +29,12 @@ export default {
         belle: '#CE7E94',
         burn: '#8A6A55',
         run: '#BC5E3A',
+        runclub: '#B5882B',
+        wildcard: '#8E6E9E',
         camel: '#C2925E',
         clay: '#A37C63',
         resttag: '#B9A593',
+        levelup: '#C7902E',
       },
       fontFamily: {
         display: ['Fredoka', 'system-ui', 'sans-serif'],

@@ -59,6 +59,19 @@ function HeroCard({
         </div>
       </div>
 
+      {day.challenge && (
+        <div className="mt-4 flex flex-wrap items-center gap-2">
+          <span className="rounded-pill bg-wildcard/15 px-3 py-1 font-body text-[0.65rem] font-bold uppercase tracking-wide text-wildcard">
+            {day.challenge.finale ? '560 · Final Day 🎉' : `560 Challenge · Day ${day.challenge.day} of 60`}
+          </span>
+          {day.challenge.levelUp && (
+            <span className="rounded-pill bg-levelup/15 px-3 py-1 font-body text-[0.65rem] font-bold uppercase tracking-wide text-levelup">
+              ★ Level-Up
+            </span>
+          )}
+        </div>
+      )}
+
       {!rest && day.note && (
         <p className="mt-4 font-body text-sm text-mocha-soft">{day.note}</p>
       )}
@@ -136,10 +149,11 @@ export default function TodayView({ tracker }: { tracker: Tracker }) {
         tagline={`${greeting()}, busy girl`}
         subtitle="here's your day — move, sweat, repeat"
       />
-      <HeroCard day={todayDay} tracker={tracker} />
-      <div className="grid gap-3 sm:grid-cols-2">
-        <MiniCard day={tomorrowDay} label="Up next" tracker={tracker} />
+      {/* Chronological: yesterday → today → tomorrow */}
+      <div className="space-y-3">
         <MiniCard day={yesterdayDay} label="Yesterday" tracker={tracker} />
+        <HeroCard day={todayDay} tracker={tracker} />
+        <MiniCard day={tomorrowDay} label="Tomorrow" tracker={tracker} />
       </div>
     </div>
   )

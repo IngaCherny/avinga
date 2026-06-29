@@ -1,5 +1,6 @@
 import type { ScheduledDay } from '../data/types'
 import { workoutForWeekday } from '../data/schedule'
+import { CHALLENGE_BY_DATE } from '../data/challenge'
 
 const DAY_NAMES = [
   'Sunday',
@@ -66,10 +67,16 @@ export function monthLongLabel(year: number, month: number): string {
   return `${MONTHS_LONG[month]} ${year}`
 }
 
+export function monthName(month: number): string {
+  return MONTHS_LONG[month]
+}
+
 /** Resolve a Date into a fully scheduled day (workout + labels). */
 export function buildDay(date: Date): ScheduledDay {
   const weekday = date.getDay()
-  const workout = workoutForWeekday(weekday)
+  const iso = toISO(date)
+  // 560-Challenge overrides take precedence over the recurring template.
+  const workout = CHALLENGE_BY_DATE[iso] ?? workoutForWeekday(weekday)
   return {
     ...workout,
     date: toISO(date),

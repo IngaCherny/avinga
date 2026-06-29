@@ -1,7 +1,7 @@
 // Core domain types for the workout tracker.
 
 /** A training "method" / category. Drives the colored tag on each card. */
-export type MethodKey = 'belle' | 'burn' | 'run' | 'rest'
+export type MethodKey = 'belle' | 'burn' | 'run' | 'runclub' | 'wildcard' | 'rest'
 
 export interface MethodMeta {
   key: MethodKey
@@ -11,6 +11,20 @@ export interface MethodMeta {
   pillClass: string
   /** Tailwind text color for the pill label. */
   pillTextClass: string
+  /** Tailwind background class for a tinted calendar cell. */
+  tintClass: string
+}
+
+/** 560-Challenge metadata attached to a day inside the challenge window. */
+export interface ChallengeInfo {
+  /** Day number within the 60-day challenge (1–60). */
+  day: number
+  /** The "original 560 workout" to swap in when travelling (faint label). */
+  swap?: string
+  /** Benchmark / level-up day (★). */
+  levelUp?: boolean
+  /** The final day of the challenge. */
+  finale?: boolean
 }
 
 /** A single day's planned workout. */
@@ -20,6 +34,8 @@ export interface Workout {
   title: string
   /** Optional extra note (sets/reps/focus) shown in detail views. */
   note?: string
+  /** Present when this day is part of the 560 Challenge. */
+  challenge?: ChallengeInfo
 }
 
 /** A day resolved against a real calendar date. */

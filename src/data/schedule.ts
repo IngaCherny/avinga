@@ -10,24 +10,42 @@ export const METHODS: Record<MethodKey, MethodMeta> = {
     label: 'BELLE',
     pillClass: 'bg-belle',
     pillTextClass: 'text-white',
+    tintClass: 'bg-[#F6E2E8]',
   },
   burn: {
     key: 'burn',
     label: 'BUILD&BURN',
     pillClass: 'bg-burn',
     pillTextClass: 'text-cream-card',
+    tintClass: 'bg-[#EEDFD1]',
   },
   run: {
     key: 'run',
     label: 'RUN',
     pillClass: 'bg-run',
     pillTextClass: 'text-cream-card',
+    tintClass: 'bg-[#F3DCCC]',
+  },
+  runclub: {
+    key: 'runclub',
+    label: 'RUN CLUB',
+    pillClass: 'bg-runclub',
+    pillTextClass: 'text-white',
+    tintClass: 'bg-[#F1EAC6]',
+  },
+  wildcard: {
+    key: 'wildcard',
+    label: 'WILDCARD',
+    pillClass: 'bg-wildcard',
+    pillTextClass: 'text-white',
+    tintClass: 'bg-[#E7DAED]',
   },
   rest: {
     key: 'rest',
     label: 'REST',
     pillClass: 'bg-resttag',
     pillTextClass: 'text-white',
+    tintClass: 'bg-[#E7DCD2]',
   },
 }
 
