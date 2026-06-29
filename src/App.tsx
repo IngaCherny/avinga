@@ -21,9 +21,6 @@ export default function App() {
         {/* brand + profile row */}
         <div className="mb-6 flex items-center justify-between gap-3">
           <div className="flex items-center gap-2">
-            <span aria-hidden className="text-xl">
-              ☀
-            </span>
             <span className="font-display text-lg font-bold tracking-tight text-mocha">
               Sweaty Week
             </span>
