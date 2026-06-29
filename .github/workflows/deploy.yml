@@ -24,8 +24,15 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: npm
+
+      # Turn GitHub Pages on (with "GitHub Actions" as the source) if it isn't
+      # already, using the workflow's own token. Avoids a manual settings click.
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+        with:
+          enablement: true
 
       - run: npm ci
 
