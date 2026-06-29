@@ -89,9 +89,10 @@ export const WEEKLY_TEMPLATE: Record<number, Workout> = {
  * when new links arrive. Keyed by ISO date (YYYY-MM-DD).
  */
 export const DATED_OVERRIDES: Record<string, Partial<Workout>> = {
-  // Week of Jun 28 – Jul 4 (Build & Burn videos)
-  '2026-06-30': { link: 'http://watch.buildandburn.co/videos/c1515' }, // Pilates
-  '2026-07-01': { link: 'http://watch.buildandburn.co/videos/c1519' }, // Lower Body
+  // Week of Jun 28 – Jul 4
+  '2026-06-30': { link: 'http://watch.buildandburn.co/videos/c1515' }, // Build&Burn Pilates
+  '2026-07-01': { link: 'http://watch.buildandburn.co/videos/c1519' }, // Build&Burn Lower Body
+  '2026-07-02': { link: 'https://thebellemethod.com/challenge-course/living-room-lift/?action=workouts' }, // Belle Upper Body
 }
 
 /** The meta line shown under the title. */
