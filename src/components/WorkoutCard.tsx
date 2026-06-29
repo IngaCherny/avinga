@@ -66,6 +66,12 @@ export default function WorkoutCard({ day, done, onToggle, isToday }: Props) {
             </span>
           </>
         )}
+        {day.challenge && (
+          <span className="rounded-pill bg-wildcard/15 px-2 py-0.5 font-body text-[0.55rem] font-bold uppercase tracking-wide text-wildcard">
+            560 · D{day.challenge.day}
+            {day.challenge.levelUp ? ' · ★' : ''}
+          </span>
+        )}
       </div>
 
       <CheckCircle done={done} onToggle={onToggle} rest={rest} label={day.dayName} />

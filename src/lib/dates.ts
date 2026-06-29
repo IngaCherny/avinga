@@ -53,6 +53,12 @@ export function isSameDay(a: Date, b: Date): boolean {
   return toISO(a) === toISO(b)
 }
 
+/** Whole calendar days from `a` to `b` (positive if b is later). */
+export function daysBetween(a: Date, b: Date): number {
+  const ms = parseISO(toISO(b)).getTime() - parseISO(toISO(a)).getTime()
+  return Math.round(ms / 86400000)
+}
+
 /** The Sunday that begins the week containing `date`. */
 export function startOfWeek(date: Date): Date {
   return addDays(date, -date.getDay())

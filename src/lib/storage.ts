@@ -62,6 +62,8 @@ export interface Tracker {
   toggle: (isoDate: string) => void
   /** How many of the given dates are completed by the active person. */
   countDone: (isoDates: string[]) => number
+  /** All completed ISO dates for the active person (unsorted). */
+  doneDates: () => string[]
 }
 
 /** App-wide tracker backed by localStorage, scoped per person. */
@@ -124,11 +126,17 @@ export function useTracker(): Tracker {
     [state],
   )
 
+  const doneDates = useCallback(
+    () => Object.keys(state.completed[state.activePerson] ?? {}),
+    [state],
+  )
+
   return {
     activePerson: state.activePerson,
     setActivePerson,
     isDone,
     toggle,
     countDone,
+    doneDates,
   }
 }

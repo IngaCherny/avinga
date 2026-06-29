@@ -7,6 +7,8 @@ import MethodTag from './MethodTag'
 import CheckCircle from './CheckCircle'
 import Header from './Header'
 import QuoteCard from './QuoteCard'
+import StatsCard from './StatsCard'
+import ChallengeBanner from './ChallengeBanner'
 import { DONE_CHEERS, pickByDate } from '../data/quotes'
 import type { ScheduledDay } from '../data/types'
 
@@ -151,6 +153,8 @@ export default function TodayView({ tracker }: { tracker: Tracker }) {
         tagline={`${greeting()}, busy girl`}
         subtitle="here's your day, move, sweat, repeat"
       />
+      <StatsCard tracker={tracker} />
+      <ChallengeBanner tracker={tracker} />
       <QuoteCard isoDate={todayDay.date} />
       {/* Chronological: yesterday → today → tomorrow */}
       <div className="space-y-3">
