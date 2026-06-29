@@ -87,18 +87,21 @@ function HeroCard({
         </div>
       )}
 
-      {!rest && (
-        <div className="mt-6 flex items-center justify-between gap-4 rounded-2xl bg-cream/70 px-4 py-3">
-          <span className="font-body text-sm font-semibold text-mocha-soft">
-            {done ? pickByDate(DONE_CHEERS, day.date) : 'Tap when you finish'}
-          </span>
-          <CheckCircle
-            done={done}
-            onToggle={() => tracker.toggle(day.date)}
-            label="today"
-          />
-        </div>
-      )}
+      <div className="mt-6 flex items-center justify-between gap-4 rounded-2xl bg-cream/70 px-4 py-3">
+        <span className="font-body text-sm font-semibold text-mocha-soft">
+          {done
+            ? pickByDate(DONE_CHEERS, day.date)
+            : rest
+              ? 'Tap when you’ve rested'
+              : 'Tap when you finish'}
+        </span>
+        <CheckCircle
+          done={done}
+          onToggle={() => tracker.toggle(day.date)}
+          rest={rest}
+          label="today"
+        />
+      </div>
     </motion.div>
   )
 }
@@ -132,15 +135,19 @@ function MiniCard({
           </div>
         )}
       </div>
-      {!rest && (
-        <span
-          className={`grid h-7 w-7 shrink-0 place-items-center rounded-full text-xs ${
-            done ? 'bg-belle text-white' : 'border-2 border-mocha-muted/30'
-          }`}
-        >
-          {done ? '✓' : ''}
-        </span>
-      )}
+      <button
+        type="button"
+        onClick={() => tracker.toggle(day.date)}
+        aria-pressed={done}
+        aria-label={done ? `Mark ${label} not done` : `Mark ${label} done`}
+        className={`grid h-7 w-7 shrink-0 place-items-center rounded-full text-xs transition-colors ${
+          done
+            ? 'bg-belle text-white'
+            : `border-2 ${rest ? 'border-dashed' : ''} border-mocha-muted/30`
+        }`}
+      >
+        {done ? '✓' : ''}
+      </button>
     </div>
   )
 }

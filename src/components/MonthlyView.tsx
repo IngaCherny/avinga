@@ -15,7 +15,6 @@ import Header from './Header'
 import DayBadge from './DayBadge'
 import MethodTag from './MethodTag'
 import CheckCircle from './CheckCircle'
-import WatchLink from './WatchLink'
 
 const WEEK_LABELS = ['S', 'M', 'T', 'W', 'T', 'F', 'S']
 
@@ -107,14 +106,17 @@ function MonthCell({
         ) : (
           <span />
         )}
-        {!rest &&
-          (done ? (
-            <span className="grid h-4 w-4 place-items-center rounded-full bg-belle text-[0.6rem] text-white sm:h-5 sm:w-5">
-              ✓
-            </span>
-          ) : (
-            <span className="h-4 w-4 rounded-full border-2 border-mocha-muted/30 sm:h-5 sm:w-5" />
-          ))}
+        {done ? (
+          <span className="grid h-4 w-4 place-items-center rounded-full bg-belle text-[0.6rem] text-white sm:h-5 sm:w-5">
+            ✓
+          </span>
+        ) : (
+          <span
+            className={`h-4 w-4 rounded-full border-2 border-mocha-muted/30 sm:h-5 sm:w-5 ${
+              rest ? 'border-dashed' : ''
+            }`}
+          />
+        )}
       </div>
     </button>
   )
@@ -295,21 +297,14 @@ export default function MonthlyView({ tracker }: { tracker: Tracker }) {
                 )}
               </div>
             )}
-
-            {selectedDay.link && (
-              <div className="mt-3">
-                <WatchLink href={selectedDay.link} />
-              </div>
-            )}
           </div>
 
-          {selectedDay.method !== 'rest' && (
-            <CheckCircle
-              done={tracker.isDone(selectedDay.date)}
-              onToggle={() => tracker.toggle(selectedDay.date)}
-              label={selectedDay.dayName}
-            />
-          )}
+          <CheckCircle
+            done={tracker.isDone(selectedDay.date)}
+            onToggle={() => tracker.toggle(selectedDay.date)}
+            rest={selectedDay.method === 'rest'}
+            label={selectedDay.dayName}
+          />
         </motion.div>
       </AnimatePresence>
 

@@ -1,5 +1,5 @@
 import type { ScheduledDay } from '../data/types'
-import { workoutForWeekday } from '../data/schedule'
+import { DATED_OVERRIDES, workoutForWeekday } from '../data/schedule'
 import { CHALLENGE_BY_DATE } from '../data/challenge'
 
 const DAY_NAMES = [
@@ -81,8 +81,10 @@ export function monthName(month: number): string {
 export function buildDay(date: Date): ScheduledDay {
   const weekday = date.getDay()
   const iso = toISO(date)
-  // 560-Challenge overrides take precedence over the recurring template.
-  const workout = CHALLENGE_BY_DATE[iso] ?? workoutForWeekday(weekday)
+  // 560-Challenge overrides take precedence over the recurring template,
+  // then per-date overrides (this week's video links etc.) merge on top.
+  const base = CHALLENGE_BY_DATE[iso] ?? workoutForWeekday(weekday)
+  const workout = DATED_OVERRIDES[iso] ? { ...base, ...DATED_OVERRIDES[iso] } : base
   return {
     ...workout,
     date: toISO(date),
