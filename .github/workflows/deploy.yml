@@ -27,13 +27,9 @@ jobs:
           node-version: 22
           cache: npm
 
-      # Turn GitHub Pages on (with "GitHub Actions" as the source) if it isn't
-      # already, using the workflow's own token. Avoids a manual settings click.
-      - name: Configure Pages
-        uses: actions/configure-pages@v5
-        with:
-          enablement: true
-
+      # NOTE: GitHub Pages must be enabled once by the repo owner:
+      # Settings → Pages → Build and deployment → Source → "GitHub Actions".
+      # Auto-enable isn't possible here (the token can't create the Pages site).
       - run: npm ci
 
       # Build with the base path matching the repo name so assets resolve
