@@ -1,10 +1,31 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
-  <rect width="32" height="32" rx="8" fill="#F4E8DE" />
+  <!-- cozy cream squircle -->
+  <rect width="32" height="32" rx="9" fill="#FBF5EE" />
+
+  <!-- chunky rounded dumbbell weights -->
   <g fill="#5E4435">
-    <rect x="4.5" y="12" width="3.4" height="8" rx="1.5" />
-    <rect x="7.6" y="9.5" width="3.6" height="13" rx="1.7" />
-    <rect x="20.8" y="9.5" width="3.6" height="13" rx="1.7" />
-    <rect x="24.1" y="12" width="3.4" height="8" rx="1.5" />
+    <rect x="4.4" y="12.8" width="3.3" height="6.4" rx="1.65" />
+    <rect x="7.7" y="10.3" width="3.6" height="11.4" rx="1.8" />
+    <rect x="20.7" y="10.3" width="3.6" height="11.4" rx="1.8" />
+    <rect x="24.3" y="12.8" width="3.3" height="6.4" rx="1.65" />
   </g>
-  <rect x="10.5" y="14.4" width="11" height="3.2" rx="1.6" fill="#D99CA3" />
+
+  <!-- rose grip = the cute little face -->
+  <rect x="11.2" y="12.9" width="9.6" height="6.2" rx="3.1" fill="#D99CA3" />
+
+  <!-- rosy cheeks -->
+  <g fill="#C77E92" opacity="0.85">
+    <circle cx="13.3" cy="16.4" r="0.95" />
+    <circle cx="18.7" cy="16.4" r="0.95" />
+  </g>
+
+  <!-- eyes + smile -->
+  <g fill="none" stroke="#5E4435" stroke-width="0.85" stroke-linecap="round">
+    <path d="M14.4 15.1v0.05" />
+    <path d="M17.6 15.1v0.05" />
+    <path d="M14.6 16.7q1.4 1.5 2.8 0" />
+  </g>
+
+  <!-- little heart sparkle, top-right -->
+  <path d="M24.8 5.6c0.55-0.95 2-0.5 2 0.55 0 0.8-1.05 1.55-2 2.25-0.95-0.7-2-1.45-2-2.25 0-1.05 1.45-1.5 2-0.55Z" fill="#E6B9A0" />
 </svg>
