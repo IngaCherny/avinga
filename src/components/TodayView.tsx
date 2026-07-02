@@ -1,13 +1,15 @@
 import { motion } from 'framer-motion'
 import type { Tracker } from '../lib/storage'
-import { addDays, buildDay, today } from '../lib/dates'
+import { addDays, buildDay, startOfWeek, toISO, today } from '../lib/dates'
 import { personById } from '../data/people'
 import DayBadge from './DayBadge'
 import MethodTag from './MethodTag'
 import CheckCircle from './CheckCircle'
 import Header from './Header'
 import QuoteCard from './QuoteCard'
+import NutritionCard from './NutritionCard'
 import StatsCard from './StatsCard'
+import { challengeForWeek } from '../data/schedule'
 import ChallengeBanner from './ChallengeBanner'
 import WatchLink from './WatchLink'
 import { DONE_CHEERS, pickByDate } from '../data/quotes'
@@ -159,6 +161,7 @@ export default function TodayView({ tracker }: { tracker: Tracker }) {
   const yesterdayDay = buildDay(addDays(now, -1))
 
   const person = personById(tracker.activePerson)
+  const challenge = challengeForWeek(toISO(startOfWeek(now)))
 
   return (
     <div className="space-y-6">
@@ -170,6 +173,7 @@ export default function TodayView({ tracker }: { tracker: Tracker }) {
       />
       <StatsCard tracker={tracker} />
       <ChallengeBanner tracker={tracker} />
+      {challenge && <NutritionCard challenge={challenge} />}
       <QuoteCard isoDate={todayDay.date} />
       {/* Chronological: yesterday → today → tomorrow */}
       <div className="space-y-3">
