@@ -2,8 +2,9 @@ import { useMemo, useState } from 'react'
 import { motion } from 'framer-motion'
 import type { Tracker } from '../lib/storage'
 import { addDays, getWeek, isSameDay, parseISO, today, weekRangeLabel } from '../lib/dates'
-import { PLAN_SUBTITLE } from '../data/schedule'
+import { PLAN_SUBTITLE, challengeForWeek } from '../data/schedule'
 import WorkoutCard from './WorkoutCard'
+import NutritionCard from './NutritionCard'
 import ProgressRing from './ProgressRing'
 import Header from './Header'
 
@@ -36,6 +37,7 @@ export default function WeeklyView({ tracker }: { tracker: Tracker }) {
   const trainingDays = week.filter((d) => d.method !== 'rest')
   const doneCount = tracker.countDone(trainingDays.map((d) => d.date))
   const isCurrentWeek = week.some((d) => isSameDay(parseISO(d.date), now))
+  const challenge = week[0] ? challengeForWeek(week[0].date) : undefined
 
   return (
     <div className="space-y-6">
@@ -72,6 +74,8 @@ export default function WeeklyView({ tracker }: { tracker: Tracker }) {
           <ProgressRing done={doneCount} total={trainingDays.length} />
         </div>
       </div>
+
+      {challenge && <NutritionCard key={week[0]?.date} challenge={challenge} />}
 
       <motion.div
         key={week[0]?.date}

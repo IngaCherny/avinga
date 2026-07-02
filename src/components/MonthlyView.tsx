@@ -124,7 +124,7 @@ function MonthCell({
 
 /** Color-key for the methods. */
 function Legend() {
-  const items: MethodKey[] = ['belle', 'burn', 'run', 'wildcard', 'runclub', 'rest']
+  const items: MethodKey[] = ['belle', 'burn', 'run', 'wildcard', 'runclub', 'yoga', 'rest']
   return (
     <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1.5">
       {items.map((m) => (

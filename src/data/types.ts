@@ -1,7 +1,7 @@
 // Core domain types for the workout tracker.
 
 /** A training "method" / category. Drives the colored tag on each card. */
-export type MethodKey = 'belle' | 'burn' | 'run' | 'runclub' | 'wildcard' | 'rest'
+export type MethodKey = 'belle' | 'burn' | 'run' | 'runclub' | 'wildcard' | 'yoga' | 'rest'
 
 export interface MethodMeta {
   key: MethodKey
