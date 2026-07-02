@@ -9,7 +9,7 @@ import Header from './Header'
 import QuoteCard from './QuoteCard'
 import NutritionCard from './NutritionCard'
 import StatsCard from './StatsCard'
-import { challengeForWeek } from '../data/schedule'
+import { dashboardChallenge } from '../data/schedule'
 import ChallengeBanner from './ChallengeBanner'
 import WatchLink from './WatchLink'
 import { DONE_CHEERS, pickByDate } from '../data/quotes'
@@ -46,7 +46,7 @@ function HeroCard({
       </span>
 
       <div className="mt-4 flex items-center gap-4">
-        <DayBadge weekday={day.weekday} label={day.dayShort} size="lg" />
+        <DayBadge method={day.method} label={day.dayShort} size="lg" />
         <div className="min-w-0">
           <h2 className="font-display text-3xl font-bold leading-tight text-mocha sm:text-4xl">
             {day.dayName}
@@ -122,7 +122,7 @@ function MiniCard({
   const done = tracker.isDone(day.date)
   return (
     <div className="flex items-center gap-3 rounded-card bg-cream-card/80 px-4 py-3.5 shadow-soft">
-      <DayBadge weekday={day.weekday} label={day.dayShort} />
+      <DayBadge method={day.method} label={day.dayShort} />
       <div className="min-w-0 flex-1">
         <p className="font-body text-[0.62rem] font-bold uppercase tracking-[0.14em] text-mocha-muted">
           {label} · {day.dateLabel}
@@ -161,7 +161,7 @@ export default function TodayView({ tracker }: { tracker: Tracker }) {
   const yesterdayDay = buildDay(addDays(now, -1))
 
   const person = personById(tracker.activePerson)
-  const challenge = challengeForWeek(toISO(startOfWeek(now)))
+  const challenge = dashboardChallenge(toISO(startOfWeek(now)))
 
   return (
     <div className="space-y-6">

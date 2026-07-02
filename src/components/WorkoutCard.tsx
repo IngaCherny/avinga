@@ -37,7 +37,7 @@ export default function WorkoutCard({ day, done, onToggle, isToday }: Props) {
         </span>
       )}
 
-      <DayBadge weekday={day.weekday} label={day.dayShort} />
+      <DayBadge method={day.method} label={day.dayShort} />
 
       {/* day + date */}
       <div className="w-[6.25rem] shrink-0 sm:w-32">

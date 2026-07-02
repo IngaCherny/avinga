@@ -45,7 +45,7 @@ export const METHODS: Record<MethodKey, MethodMeta> = {
     label: 'YOGA',
     pillClass: 'bg-yoga',
     pillTextClass: 'text-white',
-    tintClass: 'bg-[#E7EEE2]',
+    tintClass: 'bg-[#EFE4EB]',
   },
   rest: {
     key: 'rest',
@@ -55,21 +55,6 @@ export const METHODS: Record<MethodKey, MethodMeta> = {
     tintClass: 'bg-[#E7DCD2]',
   },
 }
-
-/**
- * Per-weekday badge color (the little circle with SUN/MON/…).
- * Mirrors the warm-tone progression in the PDF.
- * Index 0 = Sunday … 6 = Saturday.
- */
-export const WEEKDAY_BADGE: { bg: string; text: string }[] = [
-  { bg: 'bg-belle', text: 'text-white' }, // Sun
-  { bg: 'bg-camel', text: 'text-white' }, // Mon
-  { bg: 'bg-clay', text: 'text-white' }, // Tue
-  { bg: 'bg-clay', text: 'text-white' }, // Wed
-  { bg: 'bg-rose', text: 'text-white' }, // Thu
-  { bg: 'bg-run', text: 'text-white' }, // Fri
-  { bg: 'bg-resttag', text: 'text-white' }, // Sat
-]
 
 export const REST: Workout = { method: 'rest', title: 'rest & restore' }
 
@@ -128,8 +113,6 @@ export function workoutForWeekday(weekday: number): Workout {
 
 /** A once-a-week nutrition / habit focus shown as its own card. */
 export interface WeeklyChallenge {
-  /** Little emoji badge for the card. */
-  emoji: string
   /** Short kicker, e.g. "Hydration first". */
   title: string
   /** The actual challenge, one or two sentences. */
@@ -144,7 +127,6 @@ export interface WeeklyChallenge {
 export const NUTRITION_CHALLENGES: Record<string, WeeklyChallenge> = {
   // Week of Jul 5 – Jul 11
   '2026-07-05': {
-    emoji: '💧',
     title: 'Hydration first',
     detail:
       'Drink 2 glasses of water before every meal, snack — or even the urge to snack. Thirst first, then decide.',
@@ -154,4 +136,17 @@ export const NUTRITION_CHALLENGES: Record<string, WeeklyChallenge> = {
 /** The nutrition challenge for the week that starts on `weekStartISO`, if any. */
 export function challengeForWeek(weekStartISO: string): WeeklyChallenge | undefined {
   return NUTRITION_CHALLENGES[weekStartISO]
+}
+
+/**
+ * The challenge to surface on the always-on dashboard: this week's if it has
+ * one, otherwise the soonest upcoming, otherwise the most recent past — so the
+ * reminder is always visible once any challenge exists.
+ */
+export function dashboardChallenge(weekStartISO: string): WeeklyChallenge | undefined {
+  const keys = Object.keys(NUTRITION_CHALLENGES).sort()
+  if (keys.length === 0) return undefined
+  if (NUTRITION_CHALLENGES[weekStartISO]) return NUTRITION_CHALLENGES[weekStartISO]
+  const upcoming = keys.find((k) => k > weekStartISO)
+  return NUTRITION_CHALLENGES[upcoming ?? keys[keys.length - 1]]
 }

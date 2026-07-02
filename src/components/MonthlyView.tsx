@@ -252,7 +252,7 @@ export default function MonthlyView({ tracker }: { tracker: Tracker }) {
             selectedDay.method === 'rest' ? 'bg-cream-deep/80' : 'bg-cream-card shadow-card'
           }`}
         >
-          <DayBadge weekday={selectedDay.weekday} label={selectedDay.dayShort} size="lg" />
+          <DayBadge method={selectedDay.method} label={selectedDay.dayShort} size="lg" />
           <div className="min-w-0 flex-1">
             <p className="font-body text-[0.65rem] font-bold uppercase tracking-[0.14em] text-mocha-muted">
               {selectedDay.dayName} · {selectedDay.dateLabel}

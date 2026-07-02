@@ -31,7 +31,7 @@ export default {
         run: '#BC5E3A',
         runclub: '#B5882B',
         wildcard: '#8E6E9E',
-        yoga: '#8FA98C', // calm sage for yoga / mobility days
+        yoga: '#B092A6', // soft dusty mauve for yoga / mobility days
         camel: '#C2925E',
         clay: '#A37C63',
         resttag: '#B9A593',
