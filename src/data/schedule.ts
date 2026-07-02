@@ -88,10 +88,27 @@ export const DATED_OVERRIDES: Record<string, Partial<Workout>> = {
 
   // Week of Jul 5 – Jul 11 (differs from the recurring template, so each day is
   // fully overridden here). Saturday falls back to the template's rest day.
-  '2026-07-05': { method: 'belle', title: 'Total Body', note: 'Belle Method · week 3' },
+  // The Belle days all live in the "living-room-lift" course; open it and pick
+  // the day inside (the site has no per-workout URL — see note below).
+  '2026-07-05': {
+    method: 'belle',
+    title: 'Total Body',
+    note: 'Belle Method · week 3',
+    link: 'https://thebellemethod.com/challenge-course/living-room-lift/?action=workout',
+  },
   '2026-07-06': { method: 'burn', title: 'Lower Body', note: 'Build&Burn · strength' }, // link TBD
-  '2026-07-07': { method: 'belle', title: 'Upper Body', note: 'Belle Method · week 4' },
-  '2026-07-08': { method: 'belle', title: 'Lower Body', note: 'Belle Method · week 4' },
+  '2026-07-07': {
+    method: 'belle',
+    title: 'Upper Body',
+    note: 'Belle Method · week 4',
+    link: 'https://thebellemethod.com/challenge-course/living-room-lift/?action=workout',
+  },
+  '2026-07-08': {
+    method: 'belle',
+    title: 'Lower Body',
+    note: 'Belle Method · week 4',
+    link: 'https://thebellemethod.com/challenge-course/living-room-lift/?action=workout',
+  },
   '2026-07-09': { method: 'yoga', title: 'Yoga', note: 'flow & restore' }, // link TBD
   '2026-07-10': {
     method: 'run',
