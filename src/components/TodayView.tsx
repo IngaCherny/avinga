@@ -171,9 +171,9 @@ export default function TodayView({ tracker }: { tracker: Tracker }) {
         tagline={`${greeting()}, busy girl`}
         subtitle="here's your day, move, sweat, repeat"
       />
+      {challenge && <NutritionCard challenge={challenge} />}
       <StatsCard tracker={tracker} />
       <ChallengeBanner tracker={tracker} />
-      {challenge && <NutritionCard challenge={challenge} />}
       <QuoteCard isoDate={todayDay.date} />
       {/* Chronological: yesterday → today → tomorrow */}
       <div className="space-y-3">
