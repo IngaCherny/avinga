@@ -126,7 +126,7 @@ export const DATED_OVERRIDES: Record<string, Partial<Workout>> = {
     link: 'https://thebellemethod.com/challenge-course/living-room-lift/?action=workout',
   },
   '2026-07-13': { method: 'burn', title: 'Lower Body', note: 'Build&Burn' },
-  '2026-07-14': { method: 'burn', title: 'Upper Body', note: 'Build&Burn' },
+  '2026-07-14': { method: 'burn', title: 'Upper Body', note: 'Build&Burn · optional +15 min run' },
   '2026-07-15': {
     method: 'belle',
     title: 'Lower Body',
