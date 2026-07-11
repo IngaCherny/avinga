@@ -116,6 +116,30 @@ export const DATED_OVERRIDES: Record<string, Partial<Workout>> = {
     note: 'Belle Method · diastasis core rehab (wk 2 · workout 1)',
     link: 'https://thebellemethod.com/challenge-course/diastasis-kickstart-in-30/?action=workout',
   },
+
+  // Week of Jul 12 – Jul 18. The Belle days share the "living-room-lift" course
+  // link. Saturday falls back to the template's rest day.
+  '2026-07-12': {
+    method: 'belle',
+    title: 'Total Body',
+    note: 'Belle Method',
+    link: 'https://thebellemethod.com/challenge-course/living-room-lift/?action=workout',
+  },
+  '2026-07-13': { method: 'burn', title: 'Lower Body', note: 'Build&Burn' },
+  '2026-07-14': { method: 'burn', title: 'Upper Body', note: 'Build&Burn' },
+  '2026-07-15': {
+    method: 'belle',
+    title: 'Lower Body',
+    note: 'Belle Method',
+    link: 'https://thebellemethod.com/challenge-course/living-room-lift/?action=workout',
+  },
+  '2026-07-16': {
+    method: 'belle',
+    title: 'Upper Body',
+    note: 'Belle Method',
+    link: 'https://thebellemethod.com/challenge-course/living-room-lift/?action=workout',
+  },
+  '2026-07-17': { method: 'run', title: '25 min Run', note: 'Easy run' },
 }
 
 /** The meta line shown under the title. */
