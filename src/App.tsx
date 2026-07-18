@@ -7,10 +7,12 @@ import TodayView from './components/TodayView'
 import WeeklyView from './components/WeeklyView'
 import MonthlyView from './components/MonthlyView'
 import Footer from './components/Footer'
+import PrivateImport from './components/PrivateImport'
 import { useTracker } from './lib/storage'
 
 export default function App() {
   const [tab, setTab] = useState<TabKey>('today')
+  const [showPrivate, setShowPrivate] = useState(false)
   const tracker = useTracker()
 
   return (
@@ -24,6 +26,14 @@ export default function App() {
             <span className="font-display text-lg font-bold tracking-tight text-mocha">
               Sweaty Week
             </span>
+            <button
+              onClick={() => setShowPrivate(true)}
+              aria-label="Private 560 plan"
+              title="Private 560 plan"
+              className="grid h-6 w-6 place-items-center rounded-full text-xs text-mocha-muted/70 transition-colors hover:bg-cream-card hover:text-mocha"
+            >
+              🔒
+            </button>
           </div>
           <ProfileSwitcher active={tracker.activePerson} onChange={tracker.setActivePerson} />
         </div>
@@ -48,6 +58,8 @@ export default function App() {
 
         <Footer />
       </div>
+
+      {showPrivate && <PrivateImport onClose={() => setShowPrivate(false)} />}
     </div>
   )
 }

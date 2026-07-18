@@ -1,6 +1,7 @@
 import type { ScheduledDay } from '../data/types'
 import { DATED_OVERRIDES, workoutForWeekday } from '../data/schedule'
 import { CHALLENGE_BY_DATE } from '../data/challenge'
+import { privateDayFor } from './privateChallenge'
 
 const DAY_NAMES = [
   'Sunday',
@@ -84,7 +85,13 @@ export function buildDay(date: Date): ScheduledDay {
   // 560-Challenge overrides take precedence over the recurring template,
   // then per-date overrides (this week's video links etc.) merge on top.
   const base = CHALLENGE_BY_DATE[iso] ?? workoutForWeekday(weekday)
-  const workout = DATED_OVERRIDES[iso] ? { ...base, ...DATED_OVERRIDES[iso] } : base
+  let workout = DATED_OVERRIDES[iso] ? { ...base, ...DATED_OVERRIDES[iso] } : base
+  // Private, on-device 560 details (video links/notes for the purchased program)
+  // merge on top — kept only in localStorage, never in the public build.
+  if (workout.challenge) {
+    const priv = privateDayFor(workout.challenge.day)
+    if (priv) workout = { ...workout, ...priv }
+  }
   return {
     ...workout,
     date: toISO(date),
