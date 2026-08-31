@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react'
 import { motion } from 'framer-motion'
 import type { Tracker } from '../lib/storage'
+import type { Weights } from '../lib/weights'
 import { addDays, getWeek, isSameDay, parseISO, today, weekRangeLabel } from '../lib/dates'
 import { PLAN_SUBTITLE } from '../data/schedule'
 import WorkoutCard from './WorkoutCard'
@@ -27,7 +28,13 @@ function NavButton({
   )
 }
 
-export default function WeeklyView({ tracker }: { tracker: Tracker }) {
+export default function WeeklyView({
+  tracker,
+  weights,
+}: {
+  tracker: Tracker
+  weights: Weights
+}) {
   const [weekRef, setWeekRef] = useState(() => today())
   const now = today()
 
@@ -87,6 +94,7 @@ export default function WeeklyView({ tracker }: { tracker: Tracker }) {
             done={tracker.isDone(day.date)}
             onToggle={() => tracker.toggle(day.date)}
             isToday={isSameDay(parseISO(day.date), now)}
+            weights={weights}
           />
         ))}
       </motion.div>

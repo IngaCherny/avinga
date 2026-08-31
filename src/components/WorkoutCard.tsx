@@ -1,19 +1,22 @@
 import { motion } from 'framer-motion'
 import type { ScheduledDay } from '../data/types'
+import type { Weights } from '../lib/weights'
 import DayBadge from './DayBadge'
 import MethodTag from './MethodTag'
 import CheckCircle from './CheckCircle'
 import WatchLink from './WatchLink'
+import LogButton from './LogButton'
 
 interface Props {
   day: ScheduledDay
   done: boolean
   onToggle: () => void
   isToday?: boolean
+  weights: Weights
 }
 
 /** One day's card in the weekly list. */
-export default function WorkoutCard({ day, done, onToggle, isToday }: Props) {
+export default function WorkoutCard({ day, done, onToggle, isToday, weights }: Props) {
   const rest = day.method === 'rest'
 
   return (
@@ -73,6 +76,7 @@ export default function WorkoutCard({ day, done, onToggle, isToday }: Props) {
           </span>
         )}
         {day.link && <WatchLink href={day.link} />}
+        {!rest && <LogButton day={day} weights={weights} />}
       </div>
 
       <CheckCircle done={done} onToggle={onToggle} rest={rest} label={day.dayName} />

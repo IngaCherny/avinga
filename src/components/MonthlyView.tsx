@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import type { Tracker } from '../lib/storage'
+import type { Weights } from '../lib/weights'
 import type { MethodKey, ScheduledDay } from '../data/types'
 import { METHODS, PLAN_SUBTITLE, phaseLabel } from '../data/schedule'
 import {
@@ -16,6 +17,7 @@ import DayBadge from './DayBadge'
 import MethodTag from './MethodTag'
 import CheckCircle from './CheckCircle'
 import WatchLink from './WatchLink'
+import LogButton from './LogButton'
 
 const WEEK_LABELS = ['S', 'M', 'T', 'W', 'T', 'F', 'S']
 
@@ -126,7 +128,13 @@ function Legend() {
   )
 }
 
-export default function MonthlyView({ tracker }: { tracker: Tracker }) {
+export default function MonthlyView({
+  tracker,
+  weights,
+}: {
+  tracker: Tracker
+  weights: Weights
+}) {
   const now = today()
   const [cursor, setCursor] = useState(() => ({ year: now.getFullYear(), month: now.getMonth() }))
   const [selected, setSelected] = useState<string>(() => buildDay(now).date)
@@ -254,6 +262,7 @@ export default function MonthlyView({ tracker }: { tracker: Tracker }) {
                   {selectedDay.title}
                 </span>
                 {selectedDay.link && <WatchLink href={selectedDay.link} size="md" />}
+                <LogButton day={selectedDay} weights={weights} size="md" />
               </div>
             )}
 

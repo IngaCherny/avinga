@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion'
 import type { Tracker } from '../lib/storage'
+import type { Weights } from '../lib/weights'
 import { addDays, buildDay, today } from '../lib/dates'
-import { personById } from '../data/people'
 import DayBadge from './DayBadge'
 import MethodTag from './MethodTag'
 import CheckCircle from './CheckCircle'
@@ -11,6 +11,7 @@ import StatsCard from './StatsCard'
 import { phaseLabel } from '../data/schedule'
 import ProgramBanner from './ProgramBanner'
 import WatchLink from './WatchLink'
+import LogButton from './LogButton'
 import { DONE_CHEERS, pickByDate } from '../data/quotes'
 import type { ScheduledDay } from '../data/types'
 
@@ -25,9 +26,11 @@ function greeting(): string {
 function HeroCard({
   day,
   tracker,
+  weights,
 }: {
   day: ScheduledDay
   tracker: Tracker
+  weights: Weights
 }) {
   const rest = day.method === 'rest'
   const done = tracker.isDone(day.date)
@@ -82,9 +85,10 @@ function HeroCard({
         <p className="mt-4 font-body text-sm text-mocha-soft">{day.note}</p>
       )}
 
-      {day.link && (
-        <div className="mt-4">
-          <WatchLink href={day.link} size="md" />
+      {!rest && (
+        <div className="mt-4 flex flex-wrap items-center gap-2">
+          {day.link && <WatchLink href={day.link} size="md" />}
+          <LogButton day={day} weights={weights} size="md" />
         </div>
       )}
 
@@ -153,20 +157,24 @@ function MiniCard({
   )
 }
 
-export default function TodayView({ tracker }: { tracker: Tracker }) {
+export default function TodayView({
+  tracker,
+  weights,
+}: {
+  tracker: Tracker
+  weights: Weights
+}) {
   const now = today()
   const todayDay = buildDay(now)
   const tomorrowDay = buildDay(addDays(now, 1))
   const yesterdayDay = buildDay(addDays(now, -1))
 
-  const person = personById(tracker.activePerson)
-
   return (
     <div className="space-y-6">
       <Header
-        titleLead="Hey"
-        titleAccent={person.name}
-        tagline={`${greeting()}, let’s lift`}
+        titleLead="Let’s"
+        titleAccent="LIIFT"
+        tagline={`${greeting()} — time to move`}
         subtitle="here's your day — lift heavy, burn more"
       />
       <StatsCard tracker={tracker} />
@@ -175,7 +183,7 @@ export default function TodayView({ tracker }: { tracker: Tracker }) {
       {/* Chronological: yesterday → today → tomorrow */}
       <div className="space-y-3">
         <MiniCard day={yesterdayDay} label="Yesterday" tracker={tracker} />
-        <HeroCard day={todayDay} tracker={tracker} />
+        <HeroCard day={todayDay} tracker={tracker} weights={weights} />
         <MiniCard day={tomorrowDay} label="Tomorrow" tracker={tracker} />
       </div>
     </div>
