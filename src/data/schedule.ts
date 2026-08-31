@@ -57,16 +57,16 @@ export const REST: Workout = { method: 'rest', title: 'rest & recover' }
 /* ------------------------------------------------------------------ */
 
 /**
- * LIIFT MORE (Joel Freeman · BODi) is a fixed 8-week program: 5 lifting days
- * (LIFT + HIIT + core) and 2 rest days each week, across two phases —
- * Phase 1 (weeks 1–4, strength & mass) and Phase 2 (weeks 5–8, lean & define).
+ * LIIFT MORE (Joel Freeman · BODi) runs 5 lifting days (Mon–Fri: LIFT + HIIT +
+ * core) with the weekend to rest. Day 1 is anchored to PROGRAM_START — set it to
+ * a Monday so the lift days land Mon–Fri and rest lands Sat–Sun.
  *
- * Day 1 is anchored to PROGRAM_START. Change this one date to re-align the whole
- * calendar with when you actually started.
+ * PROGRAM_WEEKS is currently 3 (as far as the uploaded videos go). Bump it to 8
+ * for the full program once the later weeks are added.
  */
-export const PROGRAM_START = '2026-08-30' // Day 1 · Week 1
-export const PROGRAM_WEEKS = 8
-export const PROGRAM_TOTAL = PROGRAM_WEEKS * 7 // 56 days
+export const PROGRAM_START = '2026-08-31' // Day 1 · Week 1 · Monday
+export const PROGRAM_WEEKS = 3
+export const PROGRAM_TOTAL = PROGRAM_WEEKS * 7 // 21 days (3 weeks)
 
 /**
  * The recurring weekly split, keyed by day-within-week (1 → Day 1 … 7 → Day 7).
