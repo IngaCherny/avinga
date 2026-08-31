@@ -61,12 +61,13 @@ export const REST: Workout = { method: 'rest', title: 'rest & recover' }
  * core) with the weekend to rest. Day 1 is anchored to PROGRAM_START — set it to
  * a Monday so the lift days land Mon–Fri and rest lands Sat–Sun.
  *
- * PROGRAM_WEEKS is currently 3 (as far as the uploaded videos go). Bump it to 8
- * for the full program once the later weeks are added.
+ * LIIFT MORE is a full 8-week program (two 4-week phases). Videos are wired for
+ * Weeks 1–3 below; Weeks 4–8 fall back to opening the Drive folder until their
+ * per-video links are added to VIDEO_FILE_IDS.
  */
 export const PROGRAM_START = '2026-08-31' // Day 1 · Week 1 · Monday
-export const PROGRAM_WEEKS = 3
-export const PROGRAM_TOTAL = PROGRAM_WEEKS * 7 // 21 days (3 weeks)
+export const PROGRAM_WEEKS = 8
+export const PROGRAM_TOTAL = PROGRAM_WEEKS * 7 // 56 days (8 weeks)
 
 /**
  * The recurring weekly split, keyed by day-within-week (1 → Day 1 … 7 → Day 7).
@@ -157,6 +158,14 @@ export const VIDEO_FILE_IDS: Record<number, string> = {
   17: '1sLjTGIlxZKlp2cHJbPTUDyIz4n2LOY0G', // Day 3 · Back & Triceps
   18: '1iTd77Mja8OCjBL_Kh0RscaUi9ca2t_tm', // Day 4 · Hamstrings & Glutes
   19: '1VN638a9lPeBQ0PBRX62qD-dqMFM13F7e', // Day 5 · Shoulders
+
+  // ── Weeks 4–8: not uploaded yet — Watch opens the Drive folder until these
+  //    file IDs are filled in. Program-day numbers for each lifting day:
+  // Week 4 → 22, 23, 24, 25, 26
+  // Week 5 → 29, 30, 31, 32, 33
+  // Week 6 → 36, 37, 38, 39, 40
+  // Week 7 → 43, 44, 45, 46, 47
+  // Week 8 → 50, 51, 52, 53, 54
 }
 
 /** The Drive URL to open for a given program day. */
