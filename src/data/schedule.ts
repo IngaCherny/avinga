@@ -8,7 +8,7 @@ import type { MethodKey, MethodMeta, ProgramInfo, Workout } from './types'
 export const METHODS: Record<MethodKey, MethodMeta> = {
   chest: {
     key: 'chest',
-    label: 'CHEST & TRI',
+    label: 'CHEST & BI',
     pillClass: 'bg-chest',
     pillTextClass: 'text-white',
     tintClass: 'bg-[#F6DED6]',
@@ -22,7 +22,7 @@ export const METHODS: Record<MethodKey, MethodMeta> = {
   },
   back: {
     key: 'back',
-    label: 'BACK & BI',
+    label: 'BACK & TRI',
     pillClass: 'bg-back',
     pillTextClass: 'text-white',
     tintClass: 'bg-[#E6EFD9]',
@@ -74,11 +74,11 @@ export const PROGRAM_TOTAL = PROGRAM_WEEKS * 7 // 56 days
  * different Phase-2 title) go in DAY_OVERRIDES below.
  */
 export const WEEK_PATTERN: Record<number, Workout> = {
-  1: { method: 'chest', title: 'Chest & Triceps', note: 'LIFT + HIIT + core' },
-  2: { method: 'legs', title: 'Legs', note: 'LIFT + HIIT + core' },
-  3: { method: 'back', title: 'Back & Biceps', note: 'LIFT + HIIT + core' },
-  4: { method: 'legs', title: 'Legs', note: 'LIFT + HIIT + core' },
-  5: { method: 'shoulders', title: 'Shoulders', note: 'LIFT + HIIT + core' },
+  1: { method: 'chest', title: 'Chest & Biceps', note: 'LIFT + core' },
+  2: { method: 'legs', title: 'Quads & Calves', note: 'LIFT + HIIT + core' },
+  3: { method: 'back', title: 'Back & Triceps', note: 'LIFT + core' },
+  4: { method: 'legs', title: 'Hamstrings & Glutes', note: 'LIFT + HIIT + core' },
+  5: { method: 'shoulders', title: 'Shoulders', note: 'LIFT + core' },
   6: REST, // rest / recovery
   7: REST, // rest / recovery
 }
@@ -138,7 +138,26 @@ export const DRIVE_FOLDER_URL =
  * Example:
  *   1: '1AbCdEf...',   // Week 1 · Day 1 · Chest & Triceps
  */
-export const VIDEO_FILE_IDS: Record<number, string> = {}
+export const VIDEO_FILE_IDS: Record<number, string> = {
+  // ── Week 1 (program days 1–5) ──
+  1: '1t87M72mAH87TDevY5RJRh4xhbt-k2s21', // Day 1 · Chest & Biceps
+  2: '1iIDD0byymeyjZq6BpRhccVSWOsZUTNkb', // Day 2 · Quads & Calves
+  3: '1wedELYYdsmqmoDtacotH7ons0sMoOUYY', // Day 3 · Back & Triceps
+  4: '14bAogRvfTlT7z3RQBqA6F-c7aV194X4E', // Day 4 · Hamstrings & Glutes
+  5: '1kLem3MXYgYXSKcVD-hKXP_ol8mgmyQCU', // Day 5 · Shoulders
+  // ── Week 2 (program days 8–12) ──
+  8: '1mx0l_h8iA2zZrjc_CGSU9vBPp__OWHHc', // Day 1 · Chest & Biceps
+  9: '1GC2gRkTdZFtY3Ei8Ra_uVWjnVBEqaWwN', // Day 2 · Quads & Calves
+  10: '1FrY6O6EJ0C2k39h_Zu-p5AnDcoorsBrg', // Day 3 · Back & Triceps
+  11: '189-q3D9N9Mdl77ka4iByNFeASLQOrHMq', // Day 4 · Hamstrings & Glutes
+  12: '10AChNHdwT-9kCC8oQq2AG6I_XQLSEP_s', // Day 5 · Shoulders
+  // ── Week 3 (program days 15–19) ──
+  15: '1ye674xBnXN8cpBuOizoyaPEwmusv6Ms2', // Day 1 · Chest & Biceps
+  16: '11RgfoYbsZ_dCAA5SgUKY_1QmE6KKhXU5', // Day 2 · Quads & Calves
+  17: '1sLjTGIlxZKlp2cHJbPTUDyIz4n2LOY0G', // Day 3 · Back & Triceps
+  18: '1iTd77Mja8OCjBL_Kh0RscaUi9ca2t_tm', // Day 4 · Hamstrings & Glutes
+  19: '1VN638a9lPeBQ0PBRX62qD-dqMFM13F7e', // Day 5 · Shoulders
+}
 
 /** The Drive URL to open for a given program day. */
 export function videoUrlFor(day: number): string {
