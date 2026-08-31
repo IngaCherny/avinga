@@ -1,9 +1,9 @@
 {
-  "name": "sweaty-week",
+  "name": "liift-more",
   "private": true,
   "version": "1.0.0",
   "type": "module",
-  "description": "A cozy weekly & monthly workout tracker for Aviv & Inga",
+  "description": "A private LIIFT MORE tracker — 8-week schedule, Drive videos, and progress",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",

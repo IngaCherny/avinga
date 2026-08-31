@@ -1,11 +1,16 @@
-// Core domain types for the workout tracker.
+// Core domain types for the LIIFT MORE tracker.
 
-/** A training "method" / category. Drives the colored tag on each card. */
-export type MethodKey = 'belle' | 'burn' | 'run' | 'runclub' | 'wildcard' | 'yoga' | 'rest'
+/**
+ * A LIIFT MORE workout "method" — the muscle-group focus of the day. Drives the
+ * colored tag/badge on each card.
+ * chest = Chest & Triceps · back = Back & Biceps · legs = Legs ·
+ * shoulders = Shoulders · totalbody = Total Body · rest = rest / recovery.
+ */
+export type MethodKey = 'chest' | 'back' | 'legs' | 'shoulders' | 'totalbody' | 'rest'
 
 export interface MethodMeta {
   key: MethodKey
-  /** Short label shown inside the pill tag (e.g. "BELLE"). */
+  /** Short label shown inside the pill tag (e.g. "CHEST & TRI"). */
   label: string
   /** Tailwind background class for the pill. */
   pillClass: string
@@ -15,29 +20,29 @@ export interface MethodMeta {
   tintClass: string
 }
 
-/** 560-Challenge metadata attached to a day inside the challenge window. */
-export interface ChallengeInfo {
-  /** Day number within the 60-day challenge (1–60). */
+/** Where a day sits inside the fixed 8-week LIIFT MORE program. */
+export interface ProgramInfo {
+  /** Day number within the 56-day program (1–56). */
   day: number
-  /** The "original 560 workout" to swap in when travelling (faint label). */
-  swap?: string
-  /** Benchmark / level-up day (★). */
-  levelUp?: boolean
-  /** The final day of the challenge. */
+  /** Week number (1–8). */
+  week: number
+  /** Day within the week (1–7; days 6–7 are rest). */
+  dayInWeek: number
+  /** Phase 1 = weeks 1–4 (strength & mass), Phase 2 = weeks 5–8 (lean & define). */
+  phase: 1 | 2
+  /** True on the final program day. */
   finale?: boolean
 }
 
 /** A single day's planned workout. */
 export interface Workout {
   method: MethodKey
-  /** The workout name, e.g. "Lower Body", "Pilates", "20 min + Core". */
+  /** The workout name, e.g. "Chest & Triceps", "Legs", "Shoulders". */
   title: string
-  /** Optional extra note (sets/reps/focus) shown in detail views. */
+  /** Optional extra note (focus / format) shown in detail views. */
   note?: string
-  /** Optional link to the workout video. */
+  /** Optional link to the workout video (a Google Drive link). */
   link?: string
-  /** Present when this day is part of the 560 Challenge. */
-  challenge?: ChallengeInfo
 }
 
 /** A day resolved against a real calendar date. */
@@ -50,6 +55,8 @@ export interface ScheduledDay extends Workout {
   dayName: string
   /** 3-letter uppercase abbreviation, e.g. "SUN". */
   dayShort: string
-  /** Human label like "JUN 28". */
+  /** Human label like "AUG 30". */
   dateLabel: string
+  /** Present when this day falls inside the 8-week program window. */
+  program?: ProgramInfo
 }

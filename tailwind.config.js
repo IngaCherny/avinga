@@ -4,7 +4,7 @@ export default {
   theme: {
     extend: {
       colors: {
-        // Warm cozy palette pulled from the training PDF
+        // Warm cozy base palette (kept from the original cream design)
         cream: {
           DEFAULT: '#F4E8DE', // page background
           card: '#FBF5EE', // workout cards
@@ -21,21 +21,22 @@ export default {
           muted: '#A8907F', // subtitle gray-brown
         },
         rose: {
-          DEFAULT: '#D99CA3', // "Training" pink
+          DEFAULT: '#D99CA3',
           deep: '#C77E92',
           soft: '#E6B7BC',
         },
-        // Per-day & method accent colors
-        belle: '#CE7E94',
-        burn: '#8A6A55',
-        run: '#BC5E3A',
-        runclub: '#B5882B',
-        wildcard: '#8E6E9E',
-        yoga: '#B092A6', // soft dusty mauve for yoga / mobility days
-        camel: '#C2925E',
-        clay: '#A37C63',
+        // The app's primary accent (checkmarks, rings, "today", progress)
+        accent: {
+          DEFAULT: '#CB5A45', // warm LIIFT MORE coral
+          soft: '#E0917F',
+        },
+        // Per-day muscle-group colors (LIIFT MORE split)
+        chest: '#CB5A45', // Chest & Triceps — coral
+        legs: '#C4892F', // Legs — amber
+        back: '#7C9A5E', // Back & Biceps — olive
+        shoulders: '#A96FA0', // Shoulders — orchid
+        totalbody: '#5E7CA8', // Total Body — dusty blue
         resttag: '#B9A593',
-        levelup: '#C7902E',
       },
       fontFamily: {
         display: ['Fredoka', 'system-ui', 'sans-serif'],

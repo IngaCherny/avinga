@@ -1,51 +1,45 @@
-import type { MethodKey, MethodMeta, Workout } from './types'
+import type { MethodKey, MethodMeta, ProgramInfo, Workout } from './types'
 
 /**
- * Method metadata, colors are tuned to match the cozy training PDF.
- * BELLE = dusty rose · BUILD&BURN = mocha · RUN = terracotta · rest = muted.
+ * Method metadata. Colors stay in the warm cream/mocha family from the original
+ * design, with one distinct accent per muscle-group day so the week reads at a
+ * glance.
  */
 export const METHODS: Record<MethodKey, MethodMeta> = {
-  belle: {
-    key: 'belle',
-    label: 'BELLE',
-    pillClass: 'bg-belle',
+  chest: {
+    key: 'chest',
+    label: 'CHEST & TRI',
+    pillClass: 'bg-chest',
     pillTextClass: 'text-white',
-    tintClass: 'bg-[#F6E2E8]',
+    tintClass: 'bg-[#F6DED6]',
   },
-  burn: {
-    key: 'burn',
-    label: 'BUILD&BURN',
-    pillClass: 'bg-burn',
-    pillTextClass: 'text-cream-card',
-    tintClass: 'bg-[#EEDFD1]',
-  },
-  run: {
-    key: 'run',
-    label: 'RUN',
-    pillClass: 'bg-run',
-    pillTextClass: 'text-cream-card',
-    tintClass: 'bg-[#F3DCCC]',
-  },
-  runclub: {
-    key: 'runclub',
-    label: 'RUN CLUB',
-    pillClass: 'bg-runclub',
+  legs: {
+    key: 'legs',
+    label: 'LEGS',
+    pillClass: 'bg-legs',
     pillTextClass: 'text-white',
-    tintClass: 'bg-[#F1EAC6]',
+    tintClass: 'bg-[#F1E4C8]',
   },
-  wildcard: {
-    key: 'wildcard',
-    label: 'WILDCARD',
-    pillClass: 'bg-wildcard',
+  back: {
+    key: 'back',
+    label: 'BACK & BI',
+    pillClass: 'bg-back',
     pillTextClass: 'text-white',
-    tintClass: 'bg-[#E7DAED]',
+    tintClass: 'bg-[#E6EFD9]',
   },
-  yoga: {
-    key: 'yoga',
-    label: 'YOGA',
-    pillClass: 'bg-yoga',
+  shoulders: {
+    key: 'shoulders',
+    label: 'SHOULDERS',
+    pillClass: 'bg-shoulders',
     pillTextClass: 'text-white',
-    tintClass: 'bg-[#EFE4EB]',
+    tintClass: 'bg-[#EFDFEC]',
+  },
+  totalbody: {
+    key: 'totalbody',
+    label: 'TOTAL BODY',
+    pillClass: 'bg-totalbody',
+    pillTextClass: 'text-white',
+    tintClass: 'bg-[#DEE6F1]',
   },
   rest: {
     key: 'rest',
@@ -56,138 +50,106 @@ export const METHODS: Record<MethodKey, MethodMeta> = {
   },
 }
 
-export const REST: Workout = { method: 'rest', title: 'rest & restore' }
+export const REST: Workout = { method: 'rest', title: 'rest & recover' }
+
+/* ------------------------------------------------------------------ */
+/*  THE PROGRAM                                                         */
+/* ------------------------------------------------------------------ */
 
 /**
- * The recurring weekly training template, keyed by weekday (0 = Sun … 6 = Sat).
- * This is the single source of truth, edit here to update the whole app, and
- * it repeats automatically for every week and month.
+ * LIIFT MORE (Joel Freeman · BODi) is a fixed 8-week program: 5 lifting days
+ * (LIFT + HIIT + core) and 2 rest days each week, across two phases —
+ * Phase 1 (weeks 1–4, strength & mass) and Phase 2 (weeks 5–8, lean & define).
  *
- * Taken from the "JUN 28 · JUL 4" plan: Belle Method & Build&Burn.
+ * Day 1 is anchored to PROGRAM_START. Change this one date to re-align the whole
+ * calendar with when you actually started.
  */
-export const WEEKLY_TEMPLATE: Record<number, Workout> = {
-  0: { method: 'belle', title: 'Lower Body', note: 'Belle Method · glutes & legs' },
-  1: { method: 'burn', title: 'Upper Body', note: 'Build&Burn · push + pull' },
-  2: { method: 'burn', title: 'Pilates', note: 'Build&Burn · core & control' },
-  3: { method: 'burn', title: 'Lower Body', note: 'Build&Burn · strength' },
-  4: { method: 'belle', title: 'Upper Body', note: 'Belle Method · sculpt' },
-  5: { method: 'run', title: '20 min + Core', note: 'Easy run + core finisher' },
-  6: REST, // Saturday, rest & restore
+export const PROGRAM_START = '2026-08-30' // Day 1 · Week 1
+export const PROGRAM_WEEKS = 8
+export const PROGRAM_TOTAL = PROGRAM_WEEKS * 7 // 56 days
+
+/**
+ * The recurring weekly split, keyed by day-within-week (1 → Day 1 … 7 → Day 7).
+ * Days 6 & 7 are rest. This repeats for all 8 weeks; per-day tweaks (e.g. a
+ * different Phase-2 title) go in DAY_OVERRIDES below.
+ */
+export const WEEK_PATTERN: Record<number, Workout> = {
+  1: { method: 'chest', title: 'Chest & Triceps', note: 'LIFT + HIIT + core' },
+  2: { method: 'legs', title: 'Legs', note: 'LIFT + HIIT + core' },
+  3: { method: 'back', title: 'Back & Biceps', note: 'LIFT + HIIT + core' },
+  4: { method: 'legs', title: 'Legs', note: 'LIFT + HIIT + core' },
+  5: { method: 'shoulders', title: 'Shoulders', note: 'LIFT + HIIT + core' },
+  6: REST, // rest / recovery
+  7: REST, // rest / recovery
 }
 
 /**
- * Per-date overrides for the CURRENT week only (video links etc.), merged on
- * top of the recurring plan. These change every week, so update just this map
- * when new links arrive. Keyed by ISO date (YYYY-MM-DD).
+ * Per-program-day overrides (1–56), merged on top of WEEK_PATTERN. Use this to
+ * rename a specific day, add a focus note, or tweak the split for Phase 2 —
+ * without touching the recurring pattern. Leave empty to run the plain split.
+ *
+ * Example:
+ *   29: { title: 'Total Body', method: 'totalbody', note: 'Phase 2 · full-body burner' },
  */
-export const DATED_OVERRIDES: Record<string, Partial<Workout>> = {
-  // Week of Jun 28 – Jul 4
-  '2026-06-30': { link: 'http://watch.buildandburn.co/videos/c1515' }, // Build&Burn Pilates
-  '2026-07-01': { link: 'http://watch.buildandburn.co/videos/c1519' }, // Build&Burn Lower Body
-  '2026-07-02': { link: 'https://thebellemethod.com/challenge-course/living-room-lift/?action=workouts' }, // Belle Upper Body
+export const DAY_OVERRIDES: Record<number, Partial<Workout>> = {}
 
-  // Week of Jul 5 – Jul 11 (differs from the recurring template, so each day is
-  // fully overridden here). Saturday falls back to the template's rest day.
-  // The Belle days all live in the "living-room-lift" course; open it and pick
-  // the day inside (the site has no per-workout URL — see note below).
-  '2026-07-05': {
-    method: 'belle',
-    title: 'Total Body',
-    note: 'Belle Method · week 3',
-    link: 'https://thebellemethod.com/challenge-course/living-room-lift/?action=workout',
-  },
-  '2026-07-06': { method: 'burn', title: 'Lower Body', note: 'Build&Burn · strength' }, // link TBD
-  '2026-07-07': {
-    method: 'belle',
-    title: 'Upper Body',
-    note: 'Belle Method · week 4',
-    link: 'https://thebellemethod.com/challenge-course/living-room-lift/?action=workout',
-  },
-  '2026-07-08': {
-    method: 'belle',
-    title: 'Lower Body',
-    note: 'Belle Method · week 4',
-    link: 'https://thebellemethod.com/challenge-course/living-room-lift/?action=workout',
-  },
-  '2026-07-09': { method: 'yoga', title: 'Yoga', note: 'flow & restore' }, // link TBD
-  '2026-07-10': {
-    method: 'run',
-    title: '25 min Run + Core Rehab',
-    note: 'Belle Method · diastasis core rehab (wk 2 · workout 1)',
-    link: 'https://thebellemethod.com/challenge-course/diastasis-kickstart-in-30/?action=workout',
-  },
-
-  // Week of Jul 12 – Jul 18. The Belle days share the "living-room-lift" course
-  // link. Saturday falls back to the template's rest day.
-  '2026-07-12': {
-    method: 'belle',
-    title: 'Total Body',
-    note: 'Belle Method',
-    link: 'https://thebellemethod.com/challenge-course/living-room-lift/?action=workout',
-  },
-  '2026-07-13': { method: 'burn', title: 'Lower Body', note: 'Build&Burn' },
-  '2026-07-14': { method: 'burn', title: 'Upper Body', note: 'Build&Burn · optional +15 min run' },
-  '2026-07-15': {
-    method: 'belle',
-    title: 'Lower Body',
-    note: 'Belle Method',
-    link: 'https://thebellemethod.com/challenge-course/living-room-lift/?action=workout',
-  },
-  '2026-07-16': {
-    method: 'belle',
-    title: 'Upper Body',
-    note: 'Belle Method',
-    link: 'https://thebellemethod.com/challenge-course/living-room-lift/?action=workout',
-  },
-  '2026-07-17': { method: 'run', title: '25 min Run', note: 'Easy run' },
+/** Phase label for a given week (1–8). */
+export function phaseLabel(phase: 1 | 2): string {
+  return phase === 1 ? 'Phase 1 · Strength & Mass' : 'Phase 2 · Lean & Define'
 }
 
-/** The meta line shown under the title. */
-export const PLAN_SUBTITLE = 'Belle Method & Build&Burn · move, sweat, repeat'
-export const PLAN_TAGLINE = 'your sweaty week, busy girl'
+/**
+ * Resolve a program-day number (1–56) into its ProgramInfo, or null if the date
+ * is outside the 8-week window.
+ */
+export function programInfoForDay(day: number): ProgramInfo | null {
+  if (day < 1 || day > PROGRAM_TOTAL) return null
+  const week = Math.floor((day - 1) / 7) + 1
+  const dayInWeek = ((day - 1) % 7) + 1
+  const phase: 1 | 2 = week <= 4 ? 1 : 2
+  return { day, week, dayInWeek, phase, finale: day === PROGRAM_TOTAL }
+}
+
+/** The planned workout for a program day, pattern + any override. */
+export function workoutForProgramDay(info: ProgramInfo): Workout {
+  const base = WEEK_PATTERN[info.dayInWeek] ?? REST
+  const override = DAY_OVERRIDES[info.day]
+  return override ? { ...base, ...override } : base
+}
+
+/* ------------------------------------------------------------------ */
+/*  VIDEOS — your Google Drive                                         */
+/* ------------------------------------------------------------------ */
+
+/**
+ * Your Drive folder that holds the LIIFT MORE videos. Every "Watch" button opens
+ * here until a specific per-day video is mapped below.
+ */
+export const DRIVE_FOLDER_URL =
+  'https://drive.google.com/drive/folders/1Sl9gDZg8CPjqa2r7lZlNtOLMvlCUqNDG'
+
+/**
+ * Map each program day (1–56) to its Google Drive video FILE ID, so tapping
+ * "Watch" opens that exact video. To get a file ID: open the video in Drive →
+ * Share → Copy link. The link looks like
+ *   https://drive.google.com/file/d/THE_FILE_ID/view?usp=sharing
+ * Paste just THE_FILE_ID here. Days left out fall back to the folder above.
+ *
+ * Example:
+ *   1: '1AbCdEf...',   // Week 1 · Day 1 · Chest & Triceps
+ */
+export const VIDEO_FILE_IDS: Record<number, string> = {}
+
+/** The Drive URL to open for a given program day. */
+export function videoUrlFor(day: number): string {
+  const id = VIDEO_FILE_IDS[day]
+  return id ? `https://drive.google.com/file/d/${id}/view` : DRIVE_FOLDER_URL
+}
+
+/* ------------------------------------------------------------------ */
+/*  Copy                                                               */
+/* ------------------------------------------------------------------ */
+
+export const PLAN_SUBTITLE = 'LIIFT MORE · lift heavy, burn more, repeat'
+export const PLAN_TAGLINE = 'your lift week, let’s go'
 export const FOOTER_NOTE = "consistency over perfection, you've got this!"
-
-/** Look up the planned workout for any weekday. */
-export function workoutForWeekday(weekday: number): Workout {
-  return WEEKLY_TEMPLATE[weekday] ?? REST
-}
-
-/** A once-a-week nutrition / habit focus shown as its own card. */
-export interface WeeklyChallenge {
-  /** Short kicker, e.g. "Hydration first". */
-  title: string
-  /** The actual challenge, one or two sentences. */
-  detail: string
-}
-
-/**
- * Weekly nutrition challenges, keyed by the Sunday that starts the week
- * (YYYY-MM-DD). Add next week's here and the card appears automatically when
- * that week is in view.
- */
-export const NUTRITION_CHALLENGES: Record<string, WeeklyChallenge> = {
-  // Week of Jul 5 – Jul 11
-  '2026-07-05': {
-    title: 'Hydration first',
-    detail:
-      'Drink 2 glasses of water before every meal, snack — or even the urge to snack. Thirst first, then decide.',
-  },
-}
-
-/** The nutrition challenge for the week that starts on `weekStartISO`, if any. */
-export function challengeForWeek(weekStartISO: string): WeeklyChallenge | undefined {
-  return NUTRITION_CHALLENGES[weekStartISO]
-}
-
-/**
- * The challenge to surface on the always-on dashboard: this week's if it has
- * one, otherwise the soonest upcoming, otherwise the most recent past — so the
- * reminder is always visible once any challenge exists.
- */
-export function dashboardChallenge(weekStartISO: string): WeeklyChallenge | undefined {
-  const keys = Object.keys(NUTRITION_CHALLENGES).sort()
-  if (keys.length === 0) return undefined
-  if (NUTRITION_CHALLENGES[weekStartISO]) return NUTRITION_CHALLENGES[weekStartISO]
-  const upcoming = keys.find((k) => k > weekStartISO)
-  return NUTRITION_CHALLENGES[upcoming ?? keys[keys.length - 1]]
-}

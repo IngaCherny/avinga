@@ -1,7 +1,11 @@
 import type { ScheduledDay } from '../data/types'
-import { DATED_OVERRIDES, workoutForWeekday } from '../data/schedule'
-import { CHALLENGE_BY_DATE } from '../data/challenge'
-import { privateDayFor } from './privateChallenge'
+import {
+  PROGRAM_START,
+  REST,
+  programInfoForDay,
+  videoUrlFor,
+  workoutForProgramDay,
+} from '../data/schedule'
 
 const DAY_NAMES = [
   'Sunday',
@@ -78,20 +82,24 @@ export function monthName(month: number): string {
   return MONTHS_LONG[month]
 }
 
+/** Whole days from the program's Day 1 to `date` (Day 1 itself = 1). */
+function programDayNumber(iso: string): number {
+  const start = parseISO(PROGRAM_START)
+  return daysBetween(start, parseISO(iso)) + 1
+}
+
 /** Resolve a Date into a fully scheduled day (workout + labels). */
 export function buildDay(date: Date): ScheduledDay {
   const weekday = date.getDay()
   const iso = toISO(date)
-  // 560-Challenge overrides take precedence over the recurring template,
-  // then per-date overrides (this week's video links etc.) merge on top.
-  const base = CHALLENGE_BY_DATE[iso] ?? workoutForWeekday(weekday)
-  let workout = DATED_OVERRIDES[iso] ? { ...base, ...DATED_OVERRIDES[iso] } : base
-  // Private, on-device 560 details (video links/notes for the purchased program)
-  // merge on top — kept only in localStorage, never in the public build.
-  if (workout.challenge) {
-    const priv = privateDayFor(workout.challenge.day)
-    if (priv) workout = { ...workout, ...priv }
-  }
+  // Map the date onto the fixed 8-week LIIFT MORE program. Outside the program
+  // window there's no planned workout, so the day shows as rest.
+  const info = programInfoForDay(programDayNumber(iso))
+  const base = info ? workoutForProgramDay(info) : REST
+  // Attach the Google Drive video link for lifting days.
+  const link =
+    info && base.method !== 'rest' ? (base.link ?? videoUrlFor(info.day)) : base.link
+  const workout = { ...base, link }
   return {
     ...workout,
     date: toISO(date),
@@ -99,6 +107,7 @@ export function buildDay(date: Date): ScheduledDay {
     dayName: DAY_NAMES[weekday],
     dayShort: DAY_SHORT[weekday],
     dateLabel: dateLabel(date),
+    program: info ?? undefined,
   }
 }
 

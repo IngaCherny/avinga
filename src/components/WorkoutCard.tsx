@@ -27,12 +27,12 @@ export default function WorkoutCard({ day, done, onToggle, isToday }: Props) {
         rest
           ? 'bg-cream-deep/80 shadow-none'
           : 'bg-cream-card shadow-card'
-      } ${isToday ? 'ring-2 ring-belle/70 ring-offset-2 ring-offset-cream' : ''} ${
+      } ${isToday ? 'ring-2 ring-accent/70 ring-offset-2 ring-offset-cream' : ''} ${
         done && !rest ? 'opacity-80' : ''
       }`}
     >
       {isToday && (
-        <span className="absolute -top-2.5 left-5 rounded-pill bg-belle px-2.5 py-0.5 font-body text-[0.58rem] font-bold uppercase tracking-[0.14em] text-white shadow-pill">
+        <span className="absolute -top-2.5 left-5 rounded-pill bg-accent px-2.5 py-0.5 font-body text-[0.58rem] font-bold uppercase tracking-[0.14em] text-white shadow-pill">
           Today
         </span>
       )}
@@ -60,17 +60,16 @@ export default function WorkoutCard({ day, done, onToggle, isToday }: Props) {
             <MethodTag method={day.method} />
             <span
               className={`font-display text-base font-semibold text-mocha sm:text-lg ${
-                done ? 'line-through decoration-belle/60 decoration-2' : ''
+                done ? 'line-through decoration-accent/60 decoration-2' : ''
               }`}
             >
               {day.title}
             </span>
           </>
         )}
-        {day.challenge && (
-          <span className="rounded-pill bg-wildcard/15 px-2 py-0.5 font-body text-[0.55rem] font-bold uppercase tracking-wide text-wildcard">
-            560 · D{day.challenge.day}
-            {day.challenge.levelUp ? ' · ★' : ''}
+        {day.program && !rest && (
+          <span className="rounded-pill bg-accent/15 px-2 py-0.5 font-body text-[0.55rem] font-bold uppercase tracking-wide text-accent">
+            D{day.program.day}
           </span>
         )}
         {day.link && <WatchLink href={day.link} />}

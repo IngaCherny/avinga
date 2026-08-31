@@ -18,9 +18,9 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['icon.svg', 'apple-touch-icon.png'],
       manifest: {
-        name: 'Sweaty Week',
-        short_name: 'Sweaty Week',
-        description: 'A cozy weekly & monthly workout tracker for Aviv & Inga.',
+        name: 'LIIFT MORE',
+        short_name: 'LIIFT MORE',
+        description: 'A private LIIFT MORE tracker — schedule, videos, and progress.',
         theme_color: '#F4E8DE',
         background_color: '#F4E8DE',
         display: 'standalone',

@@ -25,8 +25,8 @@ export default function CheckCircle({ done, onToggle, rest, label }: Props) {
   // Rest days are checkable too (mark "rested" to keep your streak going),
   // shown with a dashed ring until checked.
   const idle = rest
-    ? 'border-dashed border-mocha-muted/50 bg-transparent text-transparent hover:border-belle/70'
-    : 'border-mocha-muted/40 bg-transparent text-transparent hover:border-belle/70'
+    ? 'border-dashed border-mocha-muted/50 bg-transparent text-transparent hover:border-accent/70'
+    : 'border-mocha-muted/40 bg-transparent text-transparent hover:border-accent/70'
 
   return (
     <motion.button
@@ -36,7 +36,7 @@ export default function CheckCircle({ done, onToggle, rest, label }: Props) {
       aria-pressed={done}
       aria-label={done ? `Mark ${label} not done` : `Mark ${label} done`}
       className={`relative grid h-9 w-9 shrink-0 place-items-center rounded-full border-2 transition-colors duration-200 ${
-        done ? 'border-belle bg-belle text-white' : idle
+        done ? 'border-accent bg-accent text-white' : idle
       }`}
     >
       {burst && <Confetti />}

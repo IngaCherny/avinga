@@ -8,7 +8,7 @@ export interface Person {
 }
 
 /**
- * The two friends keeping each other accountable.
+ * The friends keeping each other accountable through LIIFT MORE.
  * Each person tracks their own completed workouts.
  */
 export const PEOPLE: Person[] = [
@@ -22,7 +22,13 @@ export const PEOPLE: Person[] = [
     id: 'aviv',
     name: 'Aviv',
     initial: 'A',
-    avatarClass: 'bg-camel text-white',
+    avatarClass: 'bg-totalbody text-white',
+  },
+  {
+    id: 'yael',
+    name: 'Yael',
+    initial: 'Y',
+    avatarClass: 'bg-shoulders text-white',
   },
 ]
 

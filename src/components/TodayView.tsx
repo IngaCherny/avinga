@@ -1,16 +1,15 @@
 import { motion } from 'framer-motion'
 import type { Tracker } from '../lib/storage'
-import { addDays, buildDay, startOfWeek, toISO, today } from '../lib/dates'
+import { addDays, buildDay, today } from '../lib/dates'
 import { personById } from '../data/people'
 import DayBadge from './DayBadge'
 import MethodTag from './MethodTag'
 import CheckCircle from './CheckCircle'
 import Header from './Header'
 import QuoteCard from './QuoteCard'
-import NutritionCard from './NutritionCard'
 import StatsCard from './StatsCard'
-import { dashboardChallenge } from '../data/schedule'
-import ChallengeBanner from './ChallengeBanner'
+import { phaseLabel } from '../data/schedule'
+import ProgramBanner from './ProgramBanner'
 import WatchLink from './WatchLink'
 import { DONE_CHEERS, pickByDate } from '../data/quotes'
 import type { ScheduledDay } from '../data/types'
@@ -41,7 +40,7 @@ function HeroCard({
         rest ? 'bg-cream-deep' : 'bg-cream-card'
       } shadow-card`}
     >
-      <span className="font-body text-xs font-bold uppercase tracking-[0.18em] text-belle">
+      <span className="font-body text-xs font-bold uppercase tracking-[0.18em] text-accent">
         Today · {day.dateLabel}
       </span>
 
@@ -66,16 +65,16 @@ function HeroCard({
         </div>
       </div>
 
-      {day.challenge && (
+      {day.program && (
         <div className="mt-4 flex flex-wrap items-center gap-2">
-          <span className="rounded-pill bg-wildcard/15 px-3 py-1 font-body text-[0.65rem] font-bold uppercase tracking-wide text-wildcard">
-            {day.challenge.finale ? '560 · Final Day' : `560 Challenge · Day ${day.challenge.day} of 60`}
+          <span className="rounded-pill bg-accent/15 px-3 py-1 font-body text-[0.65rem] font-bold uppercase tracking-wide text-accent">
+            {day.program.finale
+              ? 'LIIFT MORE · Final Day'
+              : `Day ${day.program.day} of 56 · Week ${day.program.week}`}
           </span>
-          {day.challenge.levelUp && (
-            <span className="rounded-pill bg-levelup/15 px-3 py-1 font-body text-[0.65rem] font-bold uppercase tracking-wide text-levelup">
-              ★ Level-Up
-            </span>
-          )}
+          <span className="rounded-pill bg-mocha/10 px-3 py-1 font-body text-[0.65rem] font-bold uppercase tracking-wide text-mocha-soft">
+            {phaseLabel(day.program.phase)}
+          </span>
         </div>
       )}
 
@@ -144,7 +143,7 @@ function MiniCard({
         aria-label={done ? `Mark ${label} not done` : `Mark ${label} done`}
         className={`grid h-7 w-7 shrink-0 place-items-center rounded-full text-xs transition-colors ${
           done
-            ? 'bg-belle text-white'
+            ? 'bg-accent text-white'
             : `border-2 ${rest ? 'border-dashed' : ''} border-mocha-muted/30`
         }`}
       >
@@ -161,19 +160,17 @@ export default function TodayView({ tracker }: { tracker: Tracker }) {
   const yesterdayDay = buildDay(addDays(now, -1))
 
   const person = personById(tracker.activePerson)
-  const challenge = dashboardChallenge(toISO(startOfWeek(now)))
 
   return (
     <div className="space-y-6">
       <Header
         titleLead="Hey"
         titleAccent={person.name}
-        tagline={`${greeting()}, busy girl`}
-        subtitle="here's your day, move, sweat, repeat"
+        tagline={`${greeting()}, let’s lift`}
+        subtitle="here's your day — lift heavy, burn more"
       />
-      {challenge && <NutritionCard challenge={challenge} />}
       <StatsCard tracker={tracker} />
-      <ChallengeBanner tracker={tracker} />
+      <ProgramBanner tracker={tracker} />
       <QuoteCard isoDate={todayDay.date} />
       {/* Chronological: yesterday → today → tomorrow */}
       <div className="space-y-3">

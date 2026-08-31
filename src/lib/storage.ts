@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import { DEFAULT_PERSON_ID, resolvePersonId } from '../data/people'
 
-const STORAGE_KEY = 'sweaty-week:v1'
+const STORAGE_KEY = 'liift-more:v1'
 
 /**
  * Read a personal deep-link like `?me=aviv` (or `?me=inga`). Lets each friend

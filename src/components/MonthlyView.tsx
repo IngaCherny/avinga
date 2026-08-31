@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import type { Tracker } from '../lib/storage'
 import type { MethodKey, ScheduledDay } from '../data/types'
-import { METHODS, PLAN_SUBTITLE } from '../data/schedule'
+import { METHODS, PLAN_SUBTITLE, phaseLabel } from '../data/schedule'
 import {
   buildDay,
   getMonthMatrix,
@@ -15,16 +15,9 @@ import Header from './Header'
 import DayBadge from './DayBadge'
 import MethodTag from './MethodTag'
 import CheckCircle from './CheckCircle'
+import WatchLink from './WatchLink'
 
 const WEEK_LABELS = ['S', 'M', 'T', 'W', 'T', 'F', 'S']
-
-/** Per-month subtitle, calling out the 560 Challenge where relevant. */
-function monthSubtitle(year: number, month: number): string {
-  if (year === 2026 && month === 6) return 'Lift-first · 560 Challenge starts 20 July'
-  if (year === 2026 && month === 7) return 'Lift-first · 560 Challenge, keep building'
-  if (year === 2026 && month === 8) return '560 finishes 17 Sept · then back to your plan'
-  return PLAN_SUBTITLE
-}
 
 /** A single rich, method-tinted calendar cell. */
 function MonthCell({
@@ -45,9 +38,9 @@ function MonthCell({
   const rest = day.method === 'rest'
   const meta = METHODS[day.method]
   const dateNum = parseISO(day.date).getDate()
-  const ch = day.challenge
-  const isStart = ch?.day === 1
-  const isEnd = Boolean(ch?.finale)
+  const prog = day.program
+  const isStart = prog?.day === 1
+  const isEnd = Boolean(prog?.finale)
   const milestone = isStart || isEnd
 
   return (
@@ -61,7 +54,7 @@ function MonthCell({
         isSelected
           ? 'ring-2 ring-mocha'
           : isToday
-            ? 'ring-2 ring-belle'
+            ? 'ring-2 ring-accent'
             : 'ring-1 ring-black/5'
       }`}
     >
@@ -75,7 +68,6 @@ function MonthCell({
         >
           {dateNum}
         </span>
-        {ch?.levelUp && <span className="text-[0.6rem] leading-none text-levelup">★</span>}
       </div>
 
       {/* rich content only where there's room */}
@@ -89,25 +81,20 @@ function MonthCell({
           {meta.label}
         </span>
         <span className="truncate text-[0.72rem] font-semibold leading-tight text-mocha">
-          {day.title}
+          {rest ? 'rest' : day.title}
         </span>
-        {ch?.swap && (
-          <span className="truncate text-[0.55rem] italic leading-tight text-mocha-muted">
-            560: {ch.swap}
-          </span>
-        )}
       </div>
 
       <div className="mt-auto flex items-center justify-between pt-1">
-        {ch ? (
+        {prog ? (
           <span className="text-[0.5rem] font-bold text-mocha-muted sm:text-[0.55rem]">
-            d{ch.day}
+            d{prog.day}
           </span>
         ) : (
           <span />
         )}
         {done ? (
-          <span className="grid h-4 w-4 place-items-center rounded-full bg-belle text-[0.6rem] text-white sm:h-5 sm:w-5">
+          <span className="grid h-4 w-4 place-items-center rounded-full bg-accent text-[0.6rem] text-white sm:h-5 sm:w-5">
             ✓
           </span>
         ) : (
@@ -122,9 +109,9 @@ function MonthCell({
   )
 }
 
-/** Color-key for the methods. */
+/** Color-key for the muscle-group methods. */
 function Legend() {
-  const items: MethodKey[] = ['belle', 'burn', 'run', 'wildcard', 'runclub', 'yoga', 'rest']
+  const items: MethodKey[] = ['chest', 'legs', 'back', 'shoulders', 'rest']
   return (
     <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1.5">
       {items.map((m) => (
@@ -146,7 +133,7 @@ export default function MonthlyView({ tracker }: { tracker: Tracker }) {
 
   const matrix = useMemo(() => getMonthMatrix(cursor.year, cursor.month), [cursor])
   const selectedDay = buildDay(parseISO(selected))
-  const selCh = selectedDay.challenge
+  const selProg = selectedDay.program
 
   const inMonthTraining = matrix
     .flat()
@@ -171,8 +158,8 @@ export default function MonthlyView({ tracker }: { tracker: Tracker }) {
       <Header
         titleLead={monthName(cursor.month)}
         titleAccent={String(cursor.year)}
-        tagline={`${monthName(cursor.month).toLowerCase()}, lift first, busy girl`}
-        subtitle={monthSubtitle(cursor.year, cursor.month)}
+        tagline={`${monthName(cursor.month).toLowerCase()}, lift heavy`}
+        subtitle={PLAN_SUBTITLE}
       />
 
       <div className="flex items-center justify-center gap-3">
@@ -259,40 +246,34 @@ export default function MonthlyView({ tracker }: { tracker: Tracker }) {
             </p>
 
             {selectedDay.method === 'rest' ? (
-              <p className="mt-1 font-display text-lg italic text-mocha-muted">rest &amp; restore ♡</p>
+              <p className="mt-1 font-display text-lg italic text-mocha-muted">rest &amp; recover ♡</p>
             ) : (
               <div className="mt-1.5 flex flex-wrap items-center gap-2">
                 <MethodTag method={selectedDay.method} />
                 <span className="font-display text-lg font-semibold text-mocha">
                   {selectedDay.title}
                 </span>
+                {selectedDay.link && <WatchLink href={selectedDay.link} size="md" />}
               </div>
             )}
 
-            {/* 560 challenge details */}
-            {selCh && (
+            {/* program info */}
+            {selProg && (
               <div className="mt-2.5 flex flex-wrap items-center gap-2">
-                <span className="rounded-pill bg-wildcard/15 px-2.5 py-1 font-body text-[0.62rem] font-bold uppercase tracking-wide text-wildcard">
-                  {selCh.finale ? '560 · Final Day' : `560 · Day ${selCh.day}`}
+                <span className="rounded-pill bg-accent/15 px-2.5 py-1 font-body text-[0.62rem] font-bold uppercase tracking-wide text-accent">
+                  {selProg.finale ? 'Final Day' : `Day ${selProg.day} · Week ${selProg.week}`}
                 </span>
-                {selCh.day === 1 && (
+                <span className="rounded-pill bg-mocha/10 px-2.5 py-1 font-body text-[0.62rem] font-bold uppercase tracking-wide text-mocha-soft">
+                  {phaseLabel(selProg.phase)}
+                </span>
+                {selProg.day === 1 && (
                   <span className="rounded-pill bg-rose-deep/15 px-2.5 py-1 font-body text-[0.62rem] font-bold uppercase tracking-wide text-rose-deep">
-                    Challenge begins
+                    Program begins
                   </span>
                 )}
-                {selCh.finale && (
+                {selProg.finale && (
                   <span className="rounded-pill bg-rose-deep/15 px-2.5 py-1 font-body text-[0.62rem] font-bold uppercase tracking-wide text-rose-deep">
-                    Challenge complete
-                  </span>
-                )}
-                {selCh.levelUp && (
-                  <span className="rounded-pill bg-levelup/15 px-2.5 py-1 font-body text-[0.62rem] font-bold uppercase tracking-wide text-levelup">
-                    ★ Level-Up
-                  </span>
-                )}
-                {selCh.swap && (
-                  <span className="font-body text-[0.72rem] italic text-mocha-muted">
-                    Travelling? swap in <strong className="not-italic font-semibold">560: {selCh.swap}</strong>
+                    8 weeks done!
                   </span>
                 )}
               </div>
@@ -309,8 +290,7 @@ export default function MonthlyView({ tracker }: { tracker: Tracker }) {
       </AnimatePresence>
 
       <p className="px-2 text-center font-body text-[0.68rem] italic leading-relaxed text-mocha-muted">
-        ★ Level-Up days benchmark your progress · faint “560:” = the original 560 workout to swap in
-        when you’re travelling without weights.
+        Tap any day to see its workout · “Watch” opens the video in your Google Drive.
       </p>
     </div>
   )
