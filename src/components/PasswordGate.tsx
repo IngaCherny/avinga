@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import Background from './Background'
 import { checkPassword, isUnlocked, rememberUnlocked } from '../lib/auth'
+import { LockIcon } from './icons'
 
 /**
  * Wraps the app in a password screen. Once unlocked on a device it's remembered,
@@ -49,9 +50,7 @@ export default function PasswordGate({ children }: { children: React.ReactNode }
         transition={{ type: 'spring', stiffness: 160, damping: 18 }}
         className="relative w-full max-w-sm rounded-card bg-cream-card p-7 text-center shadow-card sm:p-8"
       >
-        <span aria-hidden className="text-4xl">
-          🔒
-        </span>
+        <LockIcon className="mx-auto h-9 w-9 text-mocha-soft" />
         <h1 className="mt-3 font-display text-3xl font-bold leading-none tracking-tight">
           <span className="text-mocha">LIIFT </span>
           <span className="text-accent">MORE</span>

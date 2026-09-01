@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { RESOURCES } from '../data/resources'
+import { ICONS } from './icons'
 
 /** Collapsible list of the official program guides in Drive. */
 export default function ResourcesCard() {
@@ -30,7 +31,9 @@ export default function ResourcesCard() {
 
       {open && (
         <div className="grid gap-2 px-4 pb-4 sm:grid-cols-2">
-          {RESOURCES.map((r) => (
+          {RESOURCES.map((r) => {
+            const Icon = ICONS[r.icon]
+            return (
             <a
               key={r.label}
               href={r.url}
@@ -38,7 +41,7 @@ export default function ResourcesCard() {
               rel="noreferrer"
               className="flex items-start gap-2.5 rounded-2xl bg-cream/70 px-3 py-2.5 transition-transform hover:scale-[1.02]"
             >
-              <span aria-hidden className="text-base leading-none">{r.icon}</span>
+              <Icon className="mt-0.5 h-4 w-4 shrink-0 text-mocha-soft" />
               <span className="min-w-0">
                 <span className="block font-body text-sm font-bold text-mocha">{r.label}</span>
                 <span className="block font-body text-[0.68rem] leading-snug text-mocha-muted">
@@ -46,7 +49,8 @@ export default function ResourcesCard() {
                 </span>
               </span>
             </a>
-          ))}
+            )
+          })}
         </div>
       )}
     </motion.div>

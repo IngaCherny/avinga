@@ -3,6 +3,7 @@ import { motion } from 'framer-motion'
 import type { SessionPoint, Weights } from '../lib/weights'
 import { parseISO, dateLabel, buildDay } from '../lib/dates'
 import Header from './Header'
+import { DumbbellIcon } from './icons'
 
 /** A tiny inline line chart of top weight across sessions. */
 function Sparkline({ points }: { points: SessionPoint[] }) {
@@ -113,7 +114,7 @@ export default function ProgressView({ weights }: { weights: Weights }) {
 
       {exercises.length === 0 ? (
         <div className="rounded-card bg-cream-card p-8 text-center shadow-soft">
-          <span aria-hidden className="text-4xl">🏋️</span>
+          <DumbbellIcon className="mx-auto h-10 w-10 text-mocha-muted" />
           <p className="mt-3 font-display text-lg font-semibold text-mocha">No lifts logged yet</p>
           <p className="mx-auto mt-2 max-w-xs font-body text-sm text-mocha-soft">
             Tap <strong className="text-accent">Log lifts</strong> on any workout (Today or Weekly)

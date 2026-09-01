@@ -2,6 +2,7 @@ import { useState } from 'react'
 import type { ScheduledDay } from '../data/types'
 import type { Weights } from '../lib/weights'
 import WeightLogger from './WeightLogger'
+import { DumbbellIcon } from './icons'
 
 interface Props {
   day: ScheduledDay
@@ -25,7 +26,7 @@ export default function LogButton({ day, weights, size = 'sm' }: Props) {
         }}
         className={`inline-flex shrink-0 items-center gap-1.5 rounded-pill border-2 border-accent/50 bg-cream-card font-body font-bold uppercase tracking-wide text-accent transition-transform hover:scale-105 active:scale-95 ${pad}`}
       >
-        <span aria-hidden>🏋️</span>
+        <DumbbellIcon className={size === 'md' ? 'h-3.5 w-3.5' : 'h-3 w-3'} />
         {count > 0 ? `${count} logged` : 'Log lifts'}
       </button>
       {open && <WeightLogger day={day} weights={weights} onClose={() => setOpen(false)} />}

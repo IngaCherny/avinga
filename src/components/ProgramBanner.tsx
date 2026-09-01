@@ -42,7 +42,7 @@ export default function ProgramBanner({ tracker }: { tracker: Tracker }) {
       until === 0 ? 'starts today — let’s go!' : `starts in ${until} day${until === 1 ? '' : 's'} · ${dateLabel(start)}`
   } else if (phase === 'after') {
     heading = 'LIIFT MORE complete'
-    sub = `${done} workouts logged · you finished all 8 weeks 🎉`
+    sub = `${done} workouts logged · you finished all 8 weeks`
   } else {
     heading = `Day ${dayNum} of ${PROGRAM_TOTAL} · Week ${info?.week ?? 1}`
     sub = `${info ? phaseLabel(info.phase) : ''} · ${done} logged`

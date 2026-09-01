@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion'
 
-const COLORS = ['#CE7E94', '#8A6A55', '#BC5E3A', '#B5882B', '#8E6E9E', '#E6B9A0']
+// Monochrome: the app's accent only, at varying opacity.
+const COLORS = ['#CB5A45']
 const PIECES = 11
 
 /** A quick celebratory burst, centered on its relatively-positioned parent. */
