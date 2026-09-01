@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react'
 import { motion } from 'framer-motion'
 import type { ScheduledDay } from '../data/types'
 import type { Weights, WorkoutSet } from '../lib/weights'
-import { suggestedFor } from '../data/exercises'
+import { DEFAULT_REPS, DEFAULT_SETS, suggestedFor } from '../data/exercises'
 
 interface Props {
   day: ScheduledDay
@@ -39,12 +39,14 @@ export default function WeightLogger({ day, weights, onClose }: Props) {
     setSaved(false)
   }
 
-  function addSet(ex: string) {
+  function addSet(ex: string, count = 1) {
     setDraft((prev) => {
       const sets = [...(prev[ex] ?? [])]
-      // Default a new set from the previous one, or 12 reps to start.
-      const last = sets[sets.length - 1]
-      sets.push({ weight: last?.weight ?? 0, reps: last?.reps ?? 12 })
+      for (let i = 0; i < count; i++) {
+        // Default a new set from the previous one, or the program's rep target.
+        const last = sets[sets.length - 1]
+        sets.push({ weight: last?.weight ?? 0, reps: last?.reps ?? DEFAULT_REPS })
+      }
       return { ...prev, [ex]: sets }
     })
     setSaved(false)
@@ -66,7 +68,7 @@ export default function WeightLogger({ day, weights, onClose }: Props) {
       return
     }
     setNames((n) => [...n, name])
-    setDraft((prev) => ({ ...prev, [name]: [{ weight: 0, reps: 12 }] }))
+    setDraft((prev) => ({ ...prev, [name]: [{ weight: 0, reps: DEFAULT_REPS }] }))
     setCustom('')
     setSaved(false)
   }
@@ -162,10 +164,10 @@ export default function WeightLogger({ day, weights, onClose }: Props) {
                   ))}
                 </div>
                 <button
-                  onClick={() => addSet(ex)}
+                  onClick={() => addSet(ex, sets.length === 0 ? DEFAULT_SETS : 1)}
                   className="mt-2 rounded-pill bg-cream-card px-3 py-1 font-body text-xs font-bold text-accent shadow-soft"
                 >
-                  + add set
+                  {sets.length === 0 ? `+ log ${DEFAULT_SETS} sets` : '+ add set'}
                 </button>
               </div>
             )

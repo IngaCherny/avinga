@@ -6,7 +6,7 @@
  * chest = Chest & Triceps · back = Back & Biceps · legs = Legs ·
  * shoulders = Shoulders · totalbody = Total Body · rest = rest / recovery.
  */
-export type MethodKey = 'chest' | 'back' | 'legs' | 'shoulders' | 'totalbody' | 'rest'
+export type MethodKey = 'chest' | 'back' | 'legs' | 'shoulders' | 'arms' | 'totalbody' | 'rest'
 
 export interface MethodMeta {
   key: MethodKey

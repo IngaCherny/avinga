@@ -113,7 +113,7 @@ function MonthCell({
 
 /** Color-key for the muscle-group methods. */
 function Legend() {
-  const items: MethodKey[] = ['chest', 'legs', 'back', 'shoulders', 'rest']
+  const items: MethodKey[] = ['chest', 'legs', 'back', 'shoulders', 'arms', 'rest']
   return (
     <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1.5">
       {items.map((m) => (

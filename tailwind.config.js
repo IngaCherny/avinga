@@ -35,6 +35,7 @@ export default {
         legs: '#C4892F', // Legs — amber
         back: '#7C9A5E', // Back & Biceps — olive
         shoulders: '#A96FA0', // Shoulders — orchid
+        arms: '#9C5A70', // Arms - berry
         totalbody: '#5E7CA8', // Total Body — dusty blue
         resttag: '#B9A593',
       },

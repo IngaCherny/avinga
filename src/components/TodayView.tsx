@@ -10,6 +10,7 @@ import QuoteCard from './QuoteCard'
 import StatsCard from './StatsCard'
 import { phaseLabel } from '../data/schedule'
 import ProgramBanner from './ProgramBanner'
+import ResourcesCard from './ResourcesCard'
 import WatchLink from './WatchLink'
 import LogButton from './LogButton'
 import { DONE_CHEERS, pickByDate } from '../data/quotes'
@@ -179,6 +180,7 @@ export default function TodayView({
       />
       <StatsCard tracker={tracker} />
       <ProgramBanner tracker={tracker} />
+      <ResourcesCard />
       <QuoteCard isoDate={todayDay.date} />
       {/* Chronological: yesterday → today → tomorrow */}
       <div className="space-y-3">

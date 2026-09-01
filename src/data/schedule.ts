@@ -8,7 +8,7 @@ import type { MethodKey, MethodMeta, ProgramInfo, Workout } from './types'
 export const METHODS: Record<MethodKey, MethodMeta> = {
   chest: {
     key: 'chest',
-    label: 'CHEST & BI',
+    label: 'CHEST',
     pillClass: 'bg-chest',
     pillTextClass: 'text-white',
     tintClass: 'bg-[#F6DED6]',
@@ -22,7 +22,7 @@ export const METHODS: Record<MethodKey, MethodMeta> = {
   },
   back: {
     key: 'back',
-    label: 'BACK & TRI',
+    label: 'BACK',
     pillClass: 'bg-back',
     pillTextClass: 'text-white',
     tintClass: 'bg-[#E6EFD9]',
@@ -40,6 +40,13 @@ export const METHODS: Record<MethodKey, MethodMeta> = {
     pillClass: 'bg-totalbody',
     pillTextClass: 'text-white',
     tintClass: 'bg-[#DEE6F1]',
+  },
+  arms: {
+    key: 'arms',
+    label: 'ARMS',
+    pillClass: 'bg-arms',
+    pillTextClass: 'text-white',
+    tintClass: 'bg-[#EFDCE2]',
   },
   rest: {
     key: 'rest',
@@ -70,29 +77,44 @@ export const PROGRAM_WEEKS = 8
 export const PROGRAM_TOTAL = PROGRAM_WEEKS * 7 // 56 days (8 weeks)
 
 /**
- * The recurring weekly split, keyed by day-within-week (1 → Day 1 … 7 → Day 7).
- * Days 6 & 7 are rest. This repeats for all 8 weeks; per-day tweaks (e.g. a
- * different Phase-2 title) go in DAY_OVERRIDES below.
+ * The weekly split, keyed by day-within-week (1 -> Day 1 ... 7 -> Day 7), with
+ * days 6 & 7 as rest. Transcribed from the program's official Workout Calendar:
+ * the split CHANGES between the two phases.
  */
-export const WEEK_PATTERN: Record<number, Workout> = {
-  1: { method: 'chest', title: 'Chest & Biceps', note: 'LIFT + core' },
-  2: { method: 'legs', title: 'Quads & Calves', note: 'LIFT + HIIT + core' },
-  3: { method: 'back', title: 'Back & Triceps', note: 'LIFT + core' },
-  4: { method: 'legs', title: 'Hamstrings & Glutes', note: 'LIFT + HIIT + core' },
-  5: { method: 'shoulders', title: 'Shoulders', note: 'LIFT + core' },
-  6: REST, // rest / recovery
-  7: REST, // rest / recovery
+export const PHASE1_PATTERN: Record<number, Workout> = {
+  1: { method: 'chest', title: 'Chest & Biceps' },
+  2: { method: 'legs', title: 'Quads & Calves' },
+  3: { method: 'back', title: 'Back & Triceps' },
+  4: { method: 'legs', title: 'Hamstrings & Glutes' },
+  5: { method: 'shoulders', title: 'Shoulders' },
+  6: REST,
+  7: REST,
+}
+
+export const PHASE2_PATTERN: Record<number, Workout> = {
+  1: { method: 'chest', title: 'Chest & Back' },
+  2: { method: 'legs', title: 'Legs' },
+  3: { method: 'shoulders', title: 'Shoulders' },
+  4: { method: 'legs', title: 'More Legs' },
+  5: { method: 'arms', title: 'Arms' },
+  6: REST,
+  7: REST,
 }
 
 /**
- * Per-program-day overrides (1–56), merged on top of WEEK_PATTERN. Use this to
- * rename a specific day, add a focus note, or tweak the split for Phase 2 —
- * without touching the recurring pattern. Leave empty to run the plain split.
- *
- * Example:
- *   29: { title: 'Total Body', method: 'totalbody', note: 'Phase 2 · full-body burner' },
+ * Per-program-day overrides (1-56), merged on top of the phase pattern. Use this
+ * to rename a specific day or add a focus note without touching the patterns.
  */
 export const DAY_OVERRIDES: Record<number, Partial<Workout>> = {}
+
+/**
+ * Each workout alternates between a straight LIFT and a LIFT + HIIT session.
+ * Confirmed against the Week 1-3 video filenames: odd weeks run LIFT on days
+ * 1/3/5, even weeks flip it.
+ */
+export function workoutFormat(week: number, dayInWeek: number): string {
+  return (week + dayInWeek) % 2 === 0 ? 'LIFT + core' : 'LIFT + HIIT + core'
+}
 
 /** Phase label for a given week (1–8). */
 export function phaseLabel(phase: 1 | 2): string {
@@ -111,11 +133,14 @@ export function programInfoForDay(day: number): ProgramInfo | null {
   return { day, week, dayInWeek, phase, finale: day === PROGRAM_TOTAL }
 }
 
-/** The planned workout for a program day, pattern + any override. */
+/** The planned workout for a program day: phase pattern + format note + override. */
 export function workoutForProgramDay(info: ProgramInfo): Workout {
-  const base = WEEK_PATTERN[info.dayInWeek] ?? REST
+  const pattern = info.phase === 1 ? PHASE1_PATTERN : PHASE2_PATTERN
+  const base = pattern[info.dayInWeek] ?? REST
+  if (base.method === 'rest') return base
+  const withNote: Workout = { ...base, note: workoutFormat(info.week, info.dayInWeek) }
   const override = DAY_OVERRIDES[info.day]
-  return override ? { ...base, ...override } : base
+  return override ? { ...withNote, ...override } : withNote
 }
 
 /* ------------------------------------------------------------------ */

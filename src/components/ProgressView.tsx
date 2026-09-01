@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import type { SessionPoint, Weights } from '../lib/weights'
-import { parseISO, dateLabel } from '../lib/dates'
+import { parseISO, dateLabel, buildDay } from '../lib/dates'
 import Header from './Header'
 
 /** A tiny inline line chart of top weight across sessions. */
@@ -80,7 +80,13 @@ function ExerciseCard({
         <div className="mt-3 space-y-1 border-t border-cream-deep pt-3">
           {[...points].reverse().map((p) => (
             <div key={p.date} className="flex items-center justify-between font-body text-xs">
-              <span className="text-mocha-soft">{dateLabel(parseISO(p.date))}</span>
+              <span className="text-mocha-soft">
+                {dateLabel(parseISO(p.date))}
+                {(() => {
+                  const wk = buildDay(parseISO(p.date)).program?.week
+                  return wk ? <span className="ml-1.5 text-mocha-muted">· W{wk}</span> : null
+                })()}
+              </span>
               <span className="text-mocha-muted">
                 top <strong className="font-bold text-mocha">{p.top}{unit}</strong> · {p.sets} set
                 {p.sets === 1 ? '' : 's'} · vol {p.volume}{unit}
