@@ -10,11 +10,19 @@ import ProgressView from './components/ProgressView'
 import Footer from './components/Footer'
 import { useTracker } from './lib/storage'
 import { useWeights } from './lib/weights'
+import { getWeekStart, setWeekStart, type WeekStart } from './lib/region'
 
 export default function App() {
   const [tab, setTab] = useState<TabKey>('today')
   const tracker = useTracker()
   const weights = useWeights()
+  // Which weekday the training week starts on. Held here so switching it
+  // re-renders every view (the date helpers read it from the module).
+  const [weekStart, setWeekStartState] = useState<WeekStart>(getWeekStart)
+  const changeWeekStart = (w: WeekStart) => {
+    setWeekStart(w)
+    setWeekStartState(w)
+  }
 
   return (
     <PasswordGate>
@@ -42,7 +50,14 @@ export default function App() {
                 transition={{ duration: 0.25 }}
               >
                 {tab === 'today' && <TodayView tracker={tracker} weights={weights} />}
-                {tab === 'weekly' && <WeeklyView tracker={tracker} weights={weights} />}
+                {tab === 'weekly' && (
+                  <WeeklyView
+                    tracker={tracker}
+                    weights={weights}
+                    weekStart={weekStart}
+                    onWeekStartChange={changeWeekStart}
+                  />
+                )}
                 {tab === 'monthly' && <MonthlyView tracker={tracker} weights={weights} />}
                 {tab === 'progress' && <ProgressView weights={weights} />}
               </motion.div>

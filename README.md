@@ -49,9 +49,17 @@ weekly split:
 | 5 | Shoulders |
 | 6–7 | Rest / recovery |
 
+### Sun–Thu or Mon–Fri
+
+The training week adapts to where you are. An Israel timezone lifts **Sunday to
+Thursday** (rest Fri & Sat); everywhere else lifts **Monday to Friday** (rest Sat
+& Sun). It's auto-detected from the device timezone (`src/lib/region.ts`) and
+there's a **my week** toggle on the Weekly tab to override it — the choice is
+remembered on that device.
+
 Everything lives in **`src/data/schedule.ts`**:
 
-- `PROGRAM_START` — the date of **Day 1** (change this to re-align the calendar).
+- `PROGRAM_START_BY_WEEK_START` — the date of **Day 1** for each week shape.
 - `WEEK_PATTERN` — the recurring 7-day split.
 - `DAY_OVERRIDES` — per-day tweaks (rename a day, change a Phase-2 workout, etc.).
 

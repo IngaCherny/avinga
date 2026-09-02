@@ -1,6 +1,6 @@
 import type { ScheduledDay } from '../data/types'
 import {
-  PROGRAM_START,
+  programStart,
   REST,
   programInfoForDay,
   videoUrlFor,
@@ -84,7 +84,7 @@ export function monthName(month: number): string {
 
 /** Whole days from the program's Day 1 to `date` (Day 1 itself = 1). */
 function programDayNumber(iso: string): number {
-  const start = parseISO(PROGRAM_START)
+  const start = parseISO(programStart())
   return daysBetween(start, parseISO(iso)) + 1
 }
 

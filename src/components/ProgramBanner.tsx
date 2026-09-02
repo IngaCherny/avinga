@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion'
 import type { Tracker } from '../lib/storage'
 import {
-  PROGRAM_START,
+  programStart,
   PROGRAM_TOTAL,
   phaseLabel,
   programInfoForDay,
@@ -9,19 +9,21 @@ import {
 import { addDays, dateLabel, daysBetween, parseISO, toISO, today } from '../lib/dates'
 
 /** Every program date, Day 1 → Day 56, for counting completed sessions. */
-const ALL_DATES = Array.from({ length: PROGRAM_TOTAL }, (_, i) =>
-  toISO(addDays(parseISO(PROGRAM_START), i)),
-)
+function allProgramDates(): string[] {
+  return Array.from({ length: PROGRAM_TOTAL }, (_, i) =>
+    toISO(addDays(parseISO(programStart()), i)),
+  )
+}
 
 /**
  * A prominent banner for the 8-week LIIFT MORE program: counts down before it
  * starts, shows Day N of 56 with a progress bar during, and celebrates after.
  */
 export default function ProgramBanner({ tracker }: { tracker: Tracker }) {
-  const start = parseISO(PROGRAM_START)
+  const start = parseISO(programStart())
   const end = addDays(start, PROGRAM_TOTAL - 1)
   const now = today()
-  const done = tracker.countDone(ALL_DATES)
+  const done = tracker.countDone(allProgramDates())
 
   let phase: 'before' | 'during' | 'after'
   if (now < start) phase = 'before'

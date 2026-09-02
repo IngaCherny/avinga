@@ -1,4 +1,5 @@
 import type { MethodKey, MethodMeta, ProgramInfo, Workout } from './types'
+import { getWeekStart, type WeekStart } from '../lib/region'
 
 /**
  * Method metadata. Colors stay in the warm cream/mocha family from the original
@@ -65,14 +66,28 @@ export const REST: Workout = { method: 'rest', title: 'rest & recover' }
 
 /**
  * LIIFT MORE (Joel Freeman · BODi) runs 5 lifting days (Mon–Fri: LIFT + HIIT +
- * core) with the weekend to rest. Day 1 is anchored to PROGRAM_START — set it to
- * a Monday so the lift days land Mon–Fri and rest lands Sat–Sun.
+ * core) with the weekend to rest. Day 1 is anchored per region: an Israel
+ * timezone lifts Sun–Thu, everywhere else lifts Mon–Fri (see lib/region.ts).
  *
  * LIIFT MORE is a full 8-week program (two 4-week phases). Videos are wired for
  * Weeks 1–3 below; Weeks 4–8 fall back to opening the Drive folder until their
  * per-video links are added to VIDEO_FILE_IDS.
  */
-export const PROGRAM_START = '2026-08-31' // Day 1 · Week 1 · Monday
+/**
+ * Day 1 of Week 1, per week shape. The two anchors are one day apart so each
+ * region gets the same 5 lift days on its own working week:
+ *   Sunday start  -> lifts land Sun-Thu, rest Fri-Sat
+ *   Monday start  -> lifts land Mon-Fri, rest Sat-Sun
+ */
+export const PROGRAM_START_BY_WEEK_START: Record<WeekStart, string> = {
+  0: '2026-08-30', // Sunday
+  1: '2026-08-31', // Monday
+}
+
+/** Day 1 for the viewer's current week shape. */
+export function programStart(): string {
+  return PROGRAM_START_BY_WEEK_START[getWeekStart()]
+}
 export const PROGRAM_WEEKS = 8
 export const PROGRAM_TOTAL = PROGRAM_WEEKS * 7 // 56 days (8 weeks)
 

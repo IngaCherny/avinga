@@ -2,6 +2,8 @@ import { useMemo, useState } from 'react'
 import { motion } from 'framer-motion'
 import type { Tracker } from '../lib/storage'
 import type { Weights } from '../lib/weights'
+import type { WeekStart } from '../lib/region'
+import WeekShapeToggle from './WeekShapeToggle'
 import { addDays, getWeek, isSameDay, parseISO, today, weekRangeLabel } from '../lib/dates'
 import { PLAN_SUBTITLE } from '../data/schedule'
 import WorkoutCard from './WorkoutCard'
@@ -31,14 +33,18 @@ function NavButton({
 export default function WeeklyView({
   tracker,
   weights,
+  weekStart,
+  onWeekStartChange,
 }: {
   tracker: Tracker
   weights: Weights
+  weekStart: WeekStart
+  onWeekStartChange: (w: WeekStart) => void
 }) {
   const [weekRef, setWeekRef] = useState(() => today())
   const now = today()
 
-  const week = useMemo(() => getWeek(weekRef), [weekRef])
+  const week = useMemo(() => getWeek(weekRef), [weekRef, weekStart])
   const rangeLabel = weekRangeLabel(week)
   const trainingDays = week.filter((d) => d.method !== 'rest')
   const doneCount = tracker.countDone(trainingDays.map((d) => d.date))
@@ -53,6 +59,8 @@ export default function WeeklyView({
         pill={rangeLabel}
         subtitle={PLAN_SUBTITLE}
       />
+
+      <WeekShapeToggle value={weekStart} onChange={onWeekStartChange} />
 
       {/* week nav + progress */}
       <div className="flex items-center justify-between gap-3">
