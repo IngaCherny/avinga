@@ -51,11 +51,9 @@ weekly split:
 
 ### Sun–Thu or Mon–Fri
 
-The training week adapts to where you are. An Israel timezone lifts **Sunday to
-Thursday** (rest Fri & Sat); everywhere else lifts **Monday to Friday** (rest Sat
-& Sun). It's auto-detected from the device timezone (`src/lib/region.ts`) and
-there's a **my week** toggle on the Weekly tab to override it — the choice is
-remembered on that device.
+Everyone defaults to **Monday–Friday** (rest Sat & Sun). Anyone who trains
+**Sunday–Thursday** (rest Fri & Sat) flips the **my week** toggle on the Weekly
+tab once — the choice is remembered on that device (`src/lib/region.ts`).
 
 Everything lives in **`src/data/schedule.ts`**:
 

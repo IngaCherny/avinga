@@ -66,8 +66,8 @@ export const REST: Workout = { method: 'rest', title: 'rest & recover' }
 
 /**
  * LIIFT MORE (Joel Freeman · BODi) runs 5 lifting days (Mon–Fri: LIFT + HIIT +
- * core) with the weekend to rest. Day 1 is anchored per region: an Israel
- * timezone lifts Sun–Thu, everywhere else lifts Mon–Fri (see lib/region.ts).
+ * core) with the weekend to rest. Day 1 is anchored per week shape: Mon–Fri by
+ * default, or Sun–Thu for anyone who flips the toggle (see lib/region.ts).
  *
  * LIIFT MORE is a full 8-week program (two 4-week phases). Videos are wired for
  * Weeks 1–3 below; Weeks 4–8 fall back to opening the Drive folder until their
