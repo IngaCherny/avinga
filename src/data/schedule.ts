@@ -70,7 +70,7 @@ export const REST: Workout = { method: 'rest', title: 'rest & recover' }
  * default, or Sun–Thu for anyone who flips the toggle (see lib/region.ts).
  *
  * LIIFT MORE is a full 8-week program (two 4-week phases). Videos are wired for
- * Weeks 1–3 below; Weeks 4–8 fall back to opening the Drive folder until their
+ * Weeks 1–5 below; Weeks 6–8 fall back to opening the Drive folder until their
  * per-video links are added to VIDEO_FILE_IDS.
  */
 /**
@@ -93,8 +93,8 @@ export const PROGRAM_TOTAL = PROGRAM_WEEKS * 7 // 56 days (8 weeks)
 
 /**
  * The weekly split, keyed by day-within-week (1 -> Day 1 ... 7 -> Day 7), with
- * days 6 & 7 as rest. Transcribed from the program's official Workout Calendar:
- * the split CHANGES between the two phases.
+ * days 6 & 7 as rest. The split CHANGES between the two phases. Both patterns
+ * are confirmed against the Week 1–5 video filenames.
  */
 export const PHASE1_PATTERN: Record<number, Workout> = {
   1: { method: 'chest', title: 'Chest & Biceps' },
@@ -107,8 +107,8 @@ export const PHASE1_PATTERN: Record<number, Workout> = {
 }
 
 export const PHASE2_PATTERN: Record<number, Workout> = {
-  1: { method: 'chest', title: 'Chest & Back' },
-  2: { method: 'legs', title: 'Legs' },
+  1: { method: 'legs', title: 'Legs' },
+  2: { method: 'chest', title: 'Chest & Back' },
   3: { method: 'shoulders', title: 'Shoulders' },
   4: { method: 'legs', title: 'More Legs' },
   5: { method: 'arms', title: 'Arms' },
@@ -124,8 +124,8 @@ export const DAY_OVERRIDES: Record<number, Partial<Workout>> = {}
 
 /**
  * Each workout alternates between a straight LIFT and a LIFT + HIIT session.
- * Confirmed against the Week 1-3 video filenames: odd weeks run LIFT on days
- * 1/3/5, even weeks flip it.
+ * Confirmed against the Week 1-5 video filenames (25 of 25 match): odd weeks
+ * run LIFT on days 1/3/5, even weeks flip it.
  */
 export function workoutFormat(week: number, dayInWeek: number): string {
   return (week + dayInWeek) % 2 === 0 ? 'LIFT + core' : 'LIFT + HIIT + core'
@@ -199,10 +199,21 @@ export const VIDEO_FILE_IDS: Record<number, string> = {
   18: '1iTd77Mja8OCjBL_Kh0RscaUi9ca2t_tm', // Day 4 · Hamstrings & Glutes
   19: '1VN638a9lPeBQ0PBRX62qD-dqMFM13F7e', // Day 5 · Shoulders
 
-  // ── Weeks 4–8: not uploaded yet — Watch opens the Drive folder until these
+  // ── Week 4 (program days 22–26) · Phase 1 ──
+  22: '1Fi2yZMGNlvNW1vhnIJUvxRWf3OGEq-dh', // Day 1 · Chest & Biceps
+  23: '1GhBIWJZJLgINOn4-ml0dXIhUtARDtRCs', // Day 2 · Quads & Calves
+  24: '1fTKOFsM1X_gCPJLisOLfV_qnnJwwT0n7', // Day 3 · Back & Triceps
+  25: '13dMFMeBgaFg5g2PPWGaxItyqGEgmyoS_', // Day 4 · Hamstrings & Glutes
+  26: '1P53IdTQbv80jgSsjDoy_UgMNAFhMmvpW', // Day 5 · Shoulders
+  // ── Week 5 (program days 29–33) · Phase 2 begins ──
+  29: '1XtB_fhqa_SlQTtbBullWzJjRJAlmQEDp', // Day 1 · Legs
+  30: '1f27d1tZlPfbqpN8dQMJL5GzwJxxknVb8', // Day 2 · Chest & Back
+  31: '1MIvqfz8rcF73fqN6icomAa4NBWWM-4O3', // Day 3 · Shoulders
+  32: '1cW3UH3D1AeurS5gwqhVHCTrrl4RoR9yd', // Day 4 · More Legs
+  33: '1LkFDx4VJPwneoaK22OtfjnmSOBrwtXwi', // Day 5 · Arms
+
+  // ── Weeks 6–8: not uploaded yet — Watch opens the Drive folder until these
   //    file IDs are filled in. Program-day numbers for each lifting day:
-  // Week 4 → 22, 23, 24, 25, 26
-  // Week 5 → 29, 30, 31, 32, 33
   // Week 6 → 36, 37, 38, 39, 40
   // Week 7 → 43, 44, 45, 46, 47
   // Week 8 → 50, 51, 52, 53, 54
