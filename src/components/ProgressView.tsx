@@ -4,6 +4,7 @@ import type { SessionPoint, Weights } from '../lib/weights'
 import { parseISO, dateLabel, buildDay } from '../lib/dates'
 import Header from './Header'
 import { DumbbellIcon } from './icons'
+import DataCard from './DataCard'
 
 /** A tiny inline line chart of top weight across sessions. */
 function Sparkline({ points }: { points: SessionPoint[] }) {
@@ -135,6 +136,8 @@ export default function ProgressView({ weights }: { weights: Weights }) {
           ))}
         </motion.div>
       )}
+
+      <DataCard weights={weights} />
     </div>
   )
 }

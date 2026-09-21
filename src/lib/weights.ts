@@ -64,6 +64,39 @@ export interface Weights {
   historyFor: (exercise: string) => SessionPoint[]
   /** True if anything at all has been logged. */
   hasAny: () => boolean
+  /** The most recent session for an exercise BEFORE `date`, if any. */
+  lastSessionFor: (exercise: string, before: string) => { date: string; sets: WorkoutSet[] } | null
+  /** The weights you use most often, ascending — for the quick-pick chips. */
+  commonWeights: () => number[]
+  /** The whole log as pretty JSON, for backup. */
+  exportJSON: () => string
+  /** Load a backup. 'merge' keeps existing days, 'replace' wipes first. */
+  importJSON: (text: string, mode?: 'merge' | 'replace') => { days: number; sets: number }
+}
+
+/** Parse and validate an exported log. Throws if it isn't one. */
+function parseLog(text: string): WeightLog {
+  const raw = JSON.parse(text)
+  const body = (raw && typeof raw === 'object' && 'log' in raw ? raw.log : raw) as unknown
+  if (!body || typeof body !== 'object') throw new Error('not a log')
+  const out: WeightLog = {}
+  for (const [date, exercises] of Object.entries(body as Record<string, unknown>)) {
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(date) || !exercises || typeof exercises !== 'object') continue
+    const forDate: Record<string, WorkoutSet[]> = {}
+    for (const [ex, sets] of Object.entries(exercises as Record<string, unknown>)) {
+      if (!Array.isArray(sets)) continue
+      const cleaned = clean(
+        sets.map((v) => ({
+          weight: Number((v as WorkoutSet)?.weight) || 0,
+          reps: Number((v as WorkoutSet)?.reps) || 0,
+        })),
+      )
+      if (cleaned.length) forDate[ex] = cleaned
+    }
+    if (Object.keys(forDate).length) out[date] = forDate
+  }
+  if (Object.keys(out).length === 0) throw new Error('no usable days')
+  return out
 }
 
 /** Keep only valid sets (positive weight or reps). */
@@ -164,6 +197,58 @@ export function useWeights(): Weights {
 
   const hasAny = useCallback(() => Object.keys(log).length > 0, [log])
 
+  const lastSessionFor = useCallback(
+    (exercise: string, before: string) => {
+      const dates = Object.keys(log)
+        .filter((d) => d < before && (log[d]?.[exercise]?.length ?? 0) > 0)
+        .sort()
+      const date = dates[dates.length - 1]
+      return date ? { date, sets: log[date][exercise] } : null
+    },
+    [log],
+  )
+
+  const commonWeights = useCallback(() => {
+    const freq = new Map<number, number>()
+    for (const date of Object.keys(log)) {
+      for (const ex of Object.keys(log[date])) {
+        for (const set of log[date][ex]) {
+          if (set.weight > 0) freq.set(set.weight, (freq.get(set.weight) ?? 0) + 1)
+        }
+      }
+    }
+    if (freq.size === 0) {
+      // Sensible starter dumbbells until there's history to learn from.
+      return unit === 'kg' ? [2, 3, 4, 5, 6, 8, 10, 12] : [5, 8, 10, 12, 15, 20, 25, 30]
+    }
+    return [...freq.entries()]
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 10)
+      .map(([w]) => w)
+      .sort((a, b) => a - b)
+  }, [log, unit])
+
+  const exportJSON = useCallback(
+    () => JSON.stringify({ app: 'liift-more', version: 1, exportedAt: new Date().toISOString(), unit, log }, null, 2),
+    [log, unit],
+  )
+
+  const importJSON = useCallback((text: string, mode: 'merge' | 'replace' = 'merge') => {
+    const incoming = parseLog(text)
+    let days = 0
+    let sets = 0
+    setLog((prev) => {
+      const next: WeightLog = mode === 'replace' ? {} : { ...prev }
+      for (const [date, exercises] of Object.entries(incoming)) {
+        next[date] = { ...(next[date] ?? {}), ...exercises }
+        days += 1
+        for (const ex of Object.keys(exercises)) sets += exercises[ex].length
+      }
+      return next
+    })
+    return { days, sets }
+  }, [])
+
   return {
     unit,
     setUnit,
@@ -174,5 +259,9 @@ export function useWeights(): Weights {
     allExercises,
     historyFor,
     hasAny,
+    lastSessionFor,
+    commonWeights,
+    exportJSON,
+    importJSON,
   }
 }
