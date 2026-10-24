@@ -69,9 +69,8 @@ export const REST: Workout = { method: 'rest', title: 'rest & recover' }
  * core) with the weekend to rest. Day 1 is anchored per week shape: Mon–Fri by
  * default, or Sun–Thu for anyone who flips the toggle (see lib/region.ts).
  *
- * LIIFT MORE is a full 8-week program (two 4-week phases). Videos are wired for
- * Weeks 1–5 below; Weeks 6–8 fall back to opening the Drive folder until their
- * per-video links are added to VIDEO_FILE_IDS.
+ * LIIFT MORE is a full 8-week program (two 4-week phases). All 40 workouts are
+ * wired to their own Drive video in VIDEO_FILE_IDS below.
  */
 /**
  * Day 1 of Week 1, per week shape. The two anchors are one day apart so each
@@ -80,8 +79,8 @@ export const REST: Workout = { method: 'rest', title: 'rest & recover' }
  *   Monday start  -> lifts land Mon-Fri, rest Sat-Sun
  */
 export const PROGRAM_START_BY_WEEK_START: Record<WeekStart, string> = {
-  0: '2026-08-30', // Sunday
-  1: '2026-08-31', // Monday
+  0: '2026-10-25', // Sunday
+  1: '2026-10-26', // Monday
 }
 
 /** Day 1 for the viewer's current week shape. */
@@ -94,7 +93,7 @@ export const PROGRAM_TOTAL = PROGRAM_WEEKS * 7 // 56 days (8 weeks)
 /**
  * The weekly split, keyed by day-within-week (1 -> Day 1 ... 7 -> Day 7), with
  * days 6 & 7 as rest. The split CHANGES between the two phases. Both patterns
- * are confirmed against the Week 1–5 video filenames.
+ * are confirmed against all 40 video filenames (Weeks 1–8).
  */
 export const PHASE1_PATTERN: Record<number, Workout> = {
   1: { method: 'chest', title: 'Chest & Biceps' },
@@ -124,8 +123,8 @@ export const DAY_OVERRIDES: Record<number, Partial<Workout>> = {}
 
 /**
  * Each workout alternates between a straight LIFT and a LIFT + HIIT session.
- * Confirmed against the Week 1-5 video filenames (25 of 25 match): odd weeks
- * run LIFT on days 1/3/5, even weeks flip it.
+ * Confirmed against every video filename (40 of 40 match): odd weeks run LIFT
+ * on days 1/3/5, even weeks flip it.
  */
 export function workoutFormat(week: number, dayInWeek: number): string {
   return (week + dayInWeek) % 2 === 0 ? 'LIFT + core' : 'LIFT + HIIT + core'
@@ -174,7 +173,9 @@ export const DRIVE_FOLDER_URL =
  * "Watch" opens that exact video. To get a file ID: open the video in Drive →
  * Share → Copy link. The link looks like
  *   https://drive.google.com/file/d/THE_FILE_ID/view?usp=sharing
- * Paste just THE_FILE_ID here. Days left out fall back to the folder above.
+ * Paste just THE_FILE_ID here. All 40 lifting days are mapped; the rest days
+ * (6 & 7 of each week) have no video, and anything unmapped falls back to the
+ * folder above.
  *
  * Example:
  *   1: '1AbCdEf...',   // Week 1 · Day 1 · Chest & Triceps
@@ -212,11 +213,24 @@ export const VIDEO_FILE_IDS: Record<number, string> = {
   32: '1cW3UH3D1AeurS5gwqhVHCTrrl4RoR9yd', // Day 4 · More Legs
   33: '1LkFDx4VJPwneoaK22OtfjnmSOBrwtXwi', // Day 5 · Arms
 
-  // ── Weeks 6–8: not uploaded yet — Watch opens the Drive folder until these
-  //    file IDs are filled in. Program-day numbers for each lifting day:
-  // Week 6 → 36, 37, 38, 39, 40
-  // Week 7 → 43, 44, 45, 46, 47
-  // Week 8 → 50, 51, 52, 53, 54
+  // ── Week 6 (program days 36–40) · Phase 2 ──
+  36: '1jSU4sULcioHLhSrxrpr8KWS-xpe4Gnpy', // Day 1 · Legs
+  37: '1nLhYbEpmhY9e9hvQea_YgVBcTMDH8j3_', // Day 2 · Chest & Back
+  38: '1nlhUsIo0VmgiYy_ViXRndxTnEYP7mtO0', // Day 3 · Shoulders
+  39: '1X3Q7G2vLC5znAIToPlvo4eWxJRxBCb9U', // Day 4 · More Legs
+  40: '1dlfi5HJPVzjysHbidw_UiDz445jwnGSA', // Day 5 · Arms
+  // ── Week 7 (program days 43–47) · Phase 2 ──
+  43: '1J5JQ7FbvpQs9mzWDyceUoOTvyE97UOwQ', // Day 1 · Legs
+  44: '1Ijpu5lrbiJGra33i4i_ZdMDA5jj_CXST', // Day 2 · Chest & Back
+  45: '1iRkJ8Ag2hN25LVrjn8kG7IUijgAfRgir', // Day 3 · Shoulders
+  46: '1u_JvtjUc6gQrqg2TBk7UGlJ4jnSW0UnT', // Day 4 · More Legs
+  47: '1vALsSo_p7yLD3lN4bEoT6cpFWJtKvs28', // Day 5 · Arms
+  // ── Week 8 (program days 50–54) · the finale ──
+  50: '1FDnFzhL_AMlRe4r0EkMmQ2Mcm-DYgTtq', // Day 1 · Legs
+  51: '1uKi-Rnxrdq3ywuj4nyfidy0uCiJuHUcF', // Day 2 · Chest & Back
+  52: '1VBf-dd6tBrcurZeTbgyqWoPuUmalWQ0O', // Day 3 · Shoulders
+  53: '1C5S1-c4eajVylKGhqa9dUZkdKwV0WtWL', // Day 4 · More Legs
+  54: '1XlhNB7VkVPYwA64jkRNUJJ0dT9kd1ftv', // Day 5 · Arms
 }
 
 /** The Drive URL to open for a given program day. */

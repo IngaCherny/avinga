@@ -85,6 +85,7 @@ tab once — the choice is remembered on that device (`src/lib/region.ts`).
 Everything lives in **`src/data/schedule.ts`**:
 
 - `PROGRAM_START_BY_WEEK_START` — the date of **Day 1** for each week shape.
+  Change these two dates to restart the program; everything else follows.
 - `PHASE1_PATTERN` / `PHASE2_PATTERN` — the recurring 7-day split per phase.
 - `workoutFormat()` — the LIFT vs LIFT + HIIT alternation.
 - `DAY_OVERRIDES` — per-day tweaks (rename a day, add a focus note, etc.).
@@ -94,22 +95,23 @@ transcribed from the official Weight Progression sheet.
 
 ## 🎬 Videos (Google Drive)
 
-Every "Watch" button opens your Drive. **Weeks 1–5 are mapped** to their exact
-video; **weeks 6–8 aren't uploaded yet**, so those days fall back to opening the
-whole folder (`DRIVE_FOLDER_URL`).
+Every "Watch" button opens your Drive. **All 40 workouts are mapped** to their
+exact video — each one verified against its Drive filename, so the workout, the
+day slot and the LIFT / LIFT + HIIT format all agree. Anything unmapped falls
+back to opening the whole folder (`DRIVE_FOLDER_URL`).
 
-To wire up a new week, add its file IDs to `VIDEO_FILE_IDS` in
-`src/data/schedule.ts`, keyed by program day (1–56):
+Links live in `VIDEO_FILE_IDS` in `src/data/schedule.ts`, keyed by program day
+(1–56):
 
 ```ts
 export const VIDEO_FILE_IDS: Record<number, string> = {
-  36: '1AbCdEf...', // Week 6 · Day 1 · Legs
-  37: '1GhIjKl...', // Week 6 · Day 2 · Chest & Back
+  36: '1jSU4sUL...', // Week 6 · Day 1 · Legs
+  37: '1nLhYbEp...', // Week 6 · Day 2 · Chest & Back
 }
 ```
 
-The lifting days waiting for links are **36–40** (week 6), **43–47** (week 7) and
-**50–54** (week 8).
+If a video is ever re-uploaded its file ID changes, so the link has to be
+updated here too.
 
 Get a file ID from Drive: open the video → **Share → Copy link** →
 `https://drive.google.com/file/d/THE_FILE_ID/view` — paste just `THE_FILE_ID`.
