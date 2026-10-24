@@ -2,9 +2,6 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    # `main` is the intended branch; the feature branch is also listed because
-    # the github-pages environment currently only permits deploys from the
-    # repo's default branch. Remove it once `main` is set as the default.
     branches: [main, claude/workout-tracker-app-8b5f9d, claude/liift-more-app-redesign-krnvua]
   workflow_dispatch:
 
@@ -14,9 +11,14 @@ permissions:
   pages: write
   id-token: write
 
-# Only one concurrent deployment
+# One run per branch. This used to be a single shared `pages` group, which
+# meant pushing the same commit to several branches at once made the runs
+# cancel each other -- and the survivor was often a branch that cannot
+# deploy, so the live site silently went stale. Per-branch groups keep the
+# default branch's run safe from the others. Only one branch ever reaches the
+# deploy job (see its `if`), so Pages still only gets one deployment at a time.
 concurrency:
-  group: pages
+  group: pages-${{ github.ref_name }}
   cancel-in-progress: true
 
 jobs:
@@ -48,8 +50,14 @@ jobs:
         with:
           path: dist
 
+  # The github-pages environment only permits deploys from the repo's DEFAULT
+  # branch, so every other branch stops after `build` (which still works as a
+  # type-check + build check). This compares against the default branch at run
+  # time rather than hard-coding a name, so changing the default in Settings is
+  # all it takes -- no edit here.
   deploy:
     needs: build
+    if: github.ref_name == github.event.repository.default_branch
     runs-on: ubuntu-latest
     environment:
       name: github-pages
