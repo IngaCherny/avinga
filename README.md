@@ -93,29 +93,43 @@ Everything lives in **`src/data/schedule.ts`**:
 The exercise lists behind **Log lifts** are in `src/data/exercises.ts`,
 transcribed from the official Weight Progression sheet.
 
-## 🎬 Videos (Google Drive)
+## 🎬 Videos & guides (Google Drive)
 
-Every "Watch" button opens your Drive. **All 40 workouts are mapped** to their
-exact video — each one verified against its Drive filename, so the workout, the
-day slot and the LIFT / LIFT + HIIT format all agree. Anything unmapped falls
-back to opening the whole folder (`DRIVE_FOLDER_URL`).
+**The Drive IDs are not in this repository.** This repo is public, so anything
+committed to it can be read by anyone — putting the video IDs in the source
+would have handed over the whole official program library to any passer-by, no
+Google invite needed.
 
-Links live in `VIDEO_FILE_IDS` in `src/data/schedule.ts`, keyed by program day
-(1–56):
+Instead each person pastes their link bundle into the app **once per device**,
+on the **Progress** tab under *Your Drive links*. It's stored in that browser's
+`localStorage` alongside the weight log, and never uploaded. Until links are
+added, Watch buttons simply don't appear and the program-guides card is hidden.
 
-```ts
-export const VIDEO_FILE_IDS: Record<number, string> = {
-  36: '1jSU4sUL...', // Week 6 · Day 1 · Legs
-  37: '1nLhYbEp...', // Week 6 · Day 2 · Chest & Back
+The bundle is JSON — a Drive folder id, a file id per program day (1–56), and
+one per guide:
+
+```json
+{
+  "app": "liift-more",
+  "kind": "links",
+  "version": 1,
+  "folder": "<drive folder id>",
+  "videos": { "1": "<file id>", "2": "<file id>" },
+  "resources": { "weight-progression": "<file id>" }
 }
 ```
 
-If a video is ever re-uploaded its file ID changes, so the link has to be
-updated here too.
+Guide keys come from `src/data/resources.ts`. Get an id from Drive: open the
+file → **Share → Copy link** → `https://drive.google.com/file/d/THE_ID/view` —
+take just `THE_ID`. Re-uploading a video changes its id, so the bundle needs
+updating too.
 
-Get a file ID from Drive: open the video → **Share → Copy link** →
-`https://drive.google.com/file/d/THE_FILE_ID/view` — paste just `THE_FILE_ID`.
-Make sure the videos are shared so the people using the app can view them.
+*Copy for another device* puts the current bundle on your clipboard so you can
+move it to a phone or laptop without rebuilding it. Keep a copy somewhere safe —
+clearing Safari's site data clears the links with it.
+
+**Never commit a bundle.** `.gitignore` blocks the obvious filenames, but the
+real rule is that Drive ids belong on devices, not in this repo.
 
 ## 🛠 Tech
 

@@ -69,8 +69,8 @@ export const REST: Workout = { method: 'rest', title: 'rest & recover' }
  * core) with the weekend to rest. Day 1 is anchored per week shape: Mon–Fri by
  * default, or Sun–Thu for anyone who flips the toggle (see lib/region.ts).
  *
- * LIIFT MORE is a full 8-week program (two 4-week phases). All 40 workouts are
- * wired to their own Drive video in VIDEO_FILE_IDS below.
+ * LIIFT MORE is a full 8-week program (two 4-week phases). Each workout has its
+ * own Drive video, linked per-device (see lib/links.ts) rather than in source.
  */
 /**
  * Day 1 of Week 1, per week shape. The two anchors are one day apart so each
@@ -158,86 +158,19 @@ export function workoutForProgramDay(info: ProgramInfo): Workout {
 }
 
 /* ------------------------------------------------------------------ */
-/*  VIDEOS — your Google Drive                                         */
+/*  VIDEOS                                                             */
 /* ------------------------------------------------------------------ */
 
 /**
- * Your Drive folder that holds the LIIFT MORE videos. Every "Watch" button opens
- * here until a specific per-day video is mapped below.
- */
-export const DRIVE_FOLDER_URL =
-  'https://drive.google.com/drive/folders/1Sl9gDZg8CPjqa2r7lZlNtOLMvlCUqNDG'
-
-/**
- * Map each program day (1–56) to its Google Drive video FILE ID, so tapping
- * "Watch" opens that exact video. To get a file ID: open the video in Drive →
- * Share → Copy link. The link looks like
- *   https://drive.google.com/file/d/THE_FILE_ID/view?usp=sharing
- * Paste just THE_FILE_ID here. All 40 lifting days are mapped; the rest days
- * (6 & 7 of each week) have no video, and anything unmapped falls back to the
- * folder above.
+ * The Drive links used to live here, which meant the public repository listed
+ * every video in the official program. They now live on each device instead -
+ * see lib/links.ts, and paste your bundle in on the Progress tab.
  *
- * Example:
- *   1: '1AbCdEf...',   // Week 1 · Day 1 · Chest & Triceps
+ * `videoUrlFor(day)` is re-exported from there so callers are unchanged; it
+ * returns undefined when this device has no links yet, and the Watch button
+ * simply doesn't render.
  */
-export const VIDEO_FILE_IDS: Record<number, string> = {
-  // ── Week 1 (program days 1–5) ──
-  1: '1t87M72mAH87TDevY5RJRh4xhbt-k2s21', // Day 1 · Chest & Biceps
-  2: '1iIDD0byymeyjZq6BpRhccVSWOsZUTNkb', // Day 2 · Quads & Calves
-  3: '1wedELYYdsmqmoDtacotH7ons0sMoOUYY', // Day 3 · Back & Triceps
-  4: '14bAogRvfTlT7z3RQBqA6F-c7aV194X4E', // Day 4 · Hamstrings & Glutes
-  5: '1kLem3MXYgYXSKcVD-hKXP_ol8mgmyQCU', // Day 5 · Shoulders
-  // ── Week 2 (program days 8–12) ──
-  8: '1mx0l_h8iA2zZrjc_CGSU9vBPp__OWHHc', // Day 1 · Chest & Biceps
-  9: '1GC2gRkTdZFtY3Ei8Ra_uVWjnVBEqaWwN', // Day 2 · Quads & Calves
-  10: '1FrY6O6EJ0C2k39h_Zu-p5AnDcoorsBrg', // Day 3 · Back & Triceps
-  11: '189-q3D9N9Mdl77ka4iByNFeASLQOrHMq', // Day 4 · Hamstrings & Glutes
-  12: '10AChNHdwT-9kCC8oQq2AG6I_XQLSEP_s', // Day 5 · Shoulders
-  // ── Week 3 (program days 15–19) ──
-  15: '1ye674xBnXN8cpBuOizoyaPEwmusv6Ms2', // Day 1 · Chest & Biceps
-  16: '11RgfoYbsZ_dCAA5SgUKY_1QmE6KKhXU5', // Day 2 · Quads & Calves
-  17: '1sLjTGIlxZKlp2cHJbPTUDyIz4n2LOY0G', // Day 3 · Back & Triceps
-  18: '1iTd77Mja8OCjBL_Kh0RscaUi9ca2t_tm', // Day 4 · Hamstrings & Glutes
-  19: '1VN638a9lPeBQ0PBRX62qD-dqMFM13F7e', // Day 5 · Shoulders
-
-  // ── Week 4 (program days 22–26) · Phase 1 ──
-  22: '1Fi2yZMGNlvNW1vhnIJUvxRWf3OGEq-dh', // Day 1 · Chest & Biceps
-  23: '1GhBIWJZJLgINOn4-ml0dXIhUtARDtRCs', // Day 2 · Quads & Calves
-  24: '1fTKOFsM1X_gCPJLisOLfV_qnnJwwT0n7', // Day 3 · Back & Triceps
-  25: '13dMFMeBgaFg5g2PPWGaxItyqGEgmyoS_', // Day 4 · Hamstrings & Glutes
-  26: '1P53IdTQbv80jgSsjDoy_UgMNAFhMmvpW', // Day 5 · Shoulders
-  // ── Week 5 (program days 29–33) · Phase 2 begins ──
-  29: '1XtB_fhqa_SlQTtbBullWzJjRJAlmQEDp', // Day 1 · Legs
-  30: '1f27d1tZlPfbqpN8dQMJL5GzwJxxknVb8', // Day 2 · Chest & Back
-  31: '1MIvqfz8rcF73fqN6icomAa4NBWWM-4O3', // Day 3 · Shoulders
-  32: '1cW3UH3D1AeurS5gwqhVHCTrrl4RoR9yd', // Day 4 · More Legs
-  33: '1LkFDx4VJPwneoaK22OtfjnmSOBrwtXwi', // Day 5 · Arms
-
-  // ── Week 6 (program days 36–40) · Phase 2 ──
-  36: '1jSU4sULcioHLhSrxrpr8KWS-xpe4Gnpy', // Day 1 · Legs
-  37: '1nLhYbEpmhY9e9hvQea_YgVBcTMDH8j3_', // Day 2 · Chest & Back
-  38: '1nlhUsIo0VmgiYy_ViXRndxTnEYP7mtO0', // Day 3 · Shoulders
-  39: '1X3Q7G2vLC5znAIToPlvo4eWxJRxBCb9U', // Day 4 · More Legs
-  40: '1dlfi5HJPVzjysHbidw_UiDz445jwnGSA', // Day 5 · Arms
-  // ── Week 7 (program days 43–47) · Phase 2 ──
-  43: '1J5JQ7FbvpQs9mzWDyceUoOTvyE97UOwQ', // Day 1 · Legs
-  44: '1Ijpu5lrbiJGra33i4i_ZdMDA5jj_CXST', // Day 2 · Chest & Back
-  45: '1iRkJ8Ag2hN25LVrjn8kG7IUijgAfRgir', // Day 3 · Shoulders
-  46: '1u_JvtjUc6gQrqg2TBk7UGlJ4jnSW0UnT', // Day 4 · More Legs
-  47: '1vALsSo_p7yLD3lN4bEoT6cpFWJtKvs28', // Day 5 · Arms
-  // ── Week 8 (program days 50–54) · the finale ──
-  50: '1FDnFzhL_AMlRe4r0EkMmQ2Mcm-DYgTtq', // Day 1 · Legs
-  51: '1uKi-Rnxrdq3ywuj4nyfidy0uCiJuHUcF', // Day 2 · Chest & Back
-  52: '1VBf-dd6tBrcurZeTbgyqWoPuUmalWQ0O', // Day 3 · Shoulders
-  53: '1C5S1-c4eajVylKGhqa9dUZkdKwV0WtWL', // Day 4 · More Legs
-  54: '1XlhNB7VkVPYwA64jkRNUJJ0dT9kd1ftv', // Day 5 · Arms
-}
-
-/** The Drive URL to open for a given program day. */
-export function videoUrlFor(day: number): string {
-  const id = VIDEO_FILE_IDS[day]
-  return id ? `https://drive.google.com/file/d/${id}/view` : DRIVE_FOLDER_URL
-}
+export { videoUrlFor } from '../lib/links'
 
 /* ------------------------------------------------------------------ */
 /*  Copy                                                               */

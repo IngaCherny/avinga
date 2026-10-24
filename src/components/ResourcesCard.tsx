@@ -1,11 +1,22 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { RESOURCES } from '../data/resources'
+import { resourceUrl, useLinks } from '../lib/links'
 import { ICONS } from './icons'
 
-/** Collapsible list of the official program guides in Drive. */
+/**
+ * Collapsible list of the official program guides in Drive. The links live on
+ * this device (lib/links.ts), so only the guides that have been linked show up
+ * — and the whole card hides when none have.
+ */
 export default function ResourcesCard() {
   const [open, setOpen] = useState(false)
+  useLinks() // re-render when links are added or cleared
+
+  const available = RESOURCES.map((r) => ({ ...r, url: resourceUrl(r.key, r.kind) })).filter(
+    (r): r is typeof r & { url: string } => Boolean(r.url),
+  )
+  if (available.length === 0) return null
 
   return (
     <motion.div
@@ -31,7 +42,7 @@ export default function ResourcesCard() {
 
       {open && (
         <div className="grid gap-2 px-4 pb-4 sm:grid-cols-2">
-          {RESOURCES.map((r) => {
+          {available.map((r) => {
             const Icon = ICONS[r.icon]
             return (
             <a

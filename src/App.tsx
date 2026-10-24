@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { AnimatePresence, motion } from 'framer-motion'
+import { motion } from 'framer-motion'
 import Background from './components/Background'
 import PasswordGate from './components/PasswordGate'
 import Tabs, { type TabKey } from './components/Tabs'
@@ -40,13 +40,20 @@ export default function App() {
 
           <Tabs active={tab} onChange={setTab} />
 
+          {/*
+            The entering view animates in on its own. This used to sit inside an
+            <AnimatePresence mode="wait">, but switching tabs again while the old
+            view was still exiting left AnimatePresence stuck on the exiting
+            child: the tab bar moved while the screen underneath kept showing the
+            previous tab, permanently. Dropping the exit animation makes a key
+            change an ordinary unmount/mount, which cannot get stuck.
+          */}
           <main className="mt-7">
-            <AnimatePresence mode="wait">
+            <div>
               <motion.div
                 key={tab}
                 initial={{ opacity: 0, y: 14 }}
                 animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
                 transition={{ duration: 0.25 }}
               >
                 {tab === 'today' && <TodayView tracker={tracker} weights={weights} />}
@@ -61,7 +68,7 @@ export default function App() {
                 {tab === 'monthly' && <MonthlyView tracker={tracker} weights={weights} />}
                 {tab === 'progress' && <ProgressView weights={weights} />}
               </motion.div>
-            </AnimatePresence>
+            </div>
           </main>
 
           <Footer />

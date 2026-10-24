@@ -21,3 +21,9 @@ npm-debug.log*
 .env
 .env.*
 !.env.example
+
+# Drive link bundles. These hold the Google Drive IDs for the program videos
+# and guides, which deliberately do NOT live in this public repo -- each device
+# holds its own copy in localStorage (see src/lib/links.ts). Never commit one.
+*links*.json
+liift-more-links*.json
