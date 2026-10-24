@@ -6,9 +6,14 @@ import { VitePWA } from 'vite-plugin-pwa'
 // Override at build time with: VITE_BASE=/your-repo/ npm run build
 const base = process.env.VITE_BASE ?? '/avinga/'
 
+// A short, sortable stamp for the footer, so a device can be checked at a
+// glance against what was last deployed.
+const buildId = new Date().toISOString().slice(0, 16).replace(/[-:]/g, '').replace('T', '-')
+
 // https://vitejs.dev/config/
 export default defineConfig({
   base,
+  define: { __BUILD_ID__: JSON.stringify(buildId) },
   plugins: [
     react(),
     // Turns the app into an installable PWA: generates the web manifest and an
